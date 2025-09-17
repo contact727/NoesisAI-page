@@ -1,100 +1,161 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Download, Mail } from 'lucide-react';
+import { Link } from 'wouter';
+import { Download, BookOpen, CheckCircle, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 
 export default function LeadMagnet() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    email: '',
-    company: '',
-    consent: false,
-  });
+  const [email, setEmail] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Lead magnet form submitted:', formData);
-    // todo: remove mock functionality - integrate with real email service
-    alert('Merci ! Vous recevrez le guide dans quelques minutes.');
-    setIsOpen(false);
+    if (email.trim()) {
+      // todo: remove mock functionality - integrate with real email service
+      console.log('Lead magnet email submitted:', email);
+      setIsSubmitted(true);
+      
+      // Reset after 3 seconds for demo
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setEmail('');
+      }, 3000);
+    }
   };
 
+  const benefits = [
+    'Les 5 processus les plus rentables à automatiser',
+    'Comment identifier les tâches chronophages',
+    'Guide étape par étape pour démarrer',
+    'Calculateur de ROI intégré',
+    'Templates prêts à utiliser'
+  ];
+
   return (
-    <div className="bg-primary py-24 sm:py-32">
+    <div className="py-24 sm:py-32 bg-gradient-to-br from-primary/5 via-background to-accent/5">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <Download className="mx-auto h-12 w-12 text-primary-foreground mb-8" />
-          <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl" data-testid="text-magnet-title">
-            Le guide pratique : 12 automatisations IA prêtes à déployer
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-primary-foreground/80" data-testid="text-magnet-subtitle">
-            Cas concrets, architecture, coûts, KPI. Tout ce dont vous avez besoin pour commencer dès aujourd'hui.
-          </p>
+        <div className="mx-auto max-w-4xl text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <div className="rounded-full bg-primary/10 p-4">
+              <BookOpen className="h-12 w-12 text-primary" />
+            </div>
+          </div>
           
-          <div className="mt-10">
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-              <DialogTrigger asChild>
-                <Button size="lg" variant="secondary" data-testid="button-download-guide">
-                  <Download className="mr-2 h-5 w-5" />
-                  Recevoir le guide gratuit
-                </Button>
-              </DialogTrigger>
-              
-              <DialogContent className="sm:max-w-md" data-testid="modal-lead-magnet">
-                <DialogHeader>
-                  <DialogTitle className="text-center">Télécharger le guide</DialogTitle>
-                </DialogHeader>
-                
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="email">Email *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="votre@email.com"
-                        data-testid="input-email"
-                      />
+          <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl mb-6" data-testid="text-leadmagnet-title">
+            Guide Gratuit : Automatisation IA
+          </h2>
+          
+          <p className="text-xl leading-8 text-muted-foreground mb-8" data-testid="text-leadmagnet-subtitle">
+            Découvrez comment automatiser vos processus métier et gagner jusqu'à 20h par semaine
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left side - Benefits */}
+          <div>
+            <h3 className="text-2xl font-semibold text-foreground mb-6">
+              Ce que vous allez apprendre :
+            </h3>
+            
+            <ul className="space-y-4 mb-8">
+              {benefits.map((benefit, index) => (
+                <li key={benefit} className="flex items-start gap-3" data-testid={`text-benefit-${index}`}>
+                  <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
+                  <span className="text-muted-foreground">{benefit}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="bg-primary/5 rounded-lg p-6 border-l-4 border-primary">
+              <p className="text-sm text-muted-foreground">
+                <strong className="text-primary">Plus de 500 entreprises</strong> utilisent déjà nos méthodes pour automatiser leurs processus et réduire leurs coûts opérationnels.
+              </p>
+            </div>
+          </div>
+
+          {/* Right side - Form */}
+          <div>
+            <Card className="bg-card/50 backdrop-blur-md border-2 border-primary/20">
+              <CardContent className="p-8">
+                {!isSubmitted ? (
+                  <>
+                    <div className="text-center mb-6">
+                      <div className="flex justify-center mb-4">
+                        <div className="rounded-full bg-primary p-3">
+                          <Download className="h-6 w-6 text-primary-foreground" />
+                        </div>
+                      </div>
+                      
+                      <h4 className="text-xl font-semibold text-foreground mb-2">
+                        Téléchargement Gratuit
+                      </h4>
+                      
+                      <p className="text-sm text-muted-foreground">
+                        Entrez votre email pour recevoir le guide complet sur l'automatisation IA
+                      </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      <div>
+                        <Input
+                          type="email"
+                          placeholder="votre@email.com"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                          className="text-center"
+                          data-testid="input-lead-email"
+                        />
+                      </div>
+                      
+                      <Button 
+                        type="submit" 
+                        size="lg" 
+                        className="w-full"
+                        data-testid="button-download-guide"
+                      >
+                        <Download className="mr-2 h-4 w-4" />
+                        Télécharger le Guide Gratuit
+                      </Button>
+                    </form>
+
+                    <p className="text-xs text-muted-foreground text-center mt-4">
+                      Pas de spam. Vous pouvez vous désabonner à tout moment.
+                    </p>
+                  </>
+                ) : (
+                  <div className="text-center py-6">
+                    <div className="flex justify-center mb-4">
+                      <div className="rounded-full bg-green-500/10 p-3">
+                        <CheckCircle className="h-6 w-6 text-green-500" />
+                      </div>
                     </div>
                     
-                    <div>
-                      <Label htmlFor="company">Société</Label>
-                      <Input
-                        id="company"
-                        value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        placeholder="Nom de votre société"
-                        data-testid="input-company"
-                      />
-                    </div>
+                    <h4 className="text-xl font-semibold text-foreground mb-2">
+                      Merci !
+                    </h4>
                     
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="consent"
-                        required
-                        checked={formData.consent}
-                        onCheckedChange={(checked) => setFormData({ ...formData, consent: !!checked })}
-                        data-testid="checkbox-consent"
-                      />
-                      <Label htmlFor="consent" className="text-sm text-muted-foreground">
-                        J'accepte de recevoir des informations de NOESIS AI *
-                      </Label>
-                    </div>
+                    <p className="text-muted-foreground">
+                      Vérifiez votre boîte email. Le guide vous attend ! 📧
+                    </p>
                   </div>
-                  
-                  <Button type="submit" className="w-full" data-testid="button-submit-guide">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Envoyer le guide
-                  </Button>
-                </form>
-              </DialogContent>
-            </Dialog>
+                )}
+              </CardContent>
+            </Card>
+
+            <div className="text-center mt-6">
+              <p className="text-sm text-muted-foreground mb-4">
+                Besoin d'une solution personnalisée ?
+              </p>
+              
+              <Button variant="outline" asChild data-testid="button-custom-quote">
+                <Link href="/contact">
+                  Demander un devis sur mesure
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
