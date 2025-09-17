@@ -14,15 +14,15 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 0 0% 98%;
+  --background: 220 15% 8%;
 
-  --foreground: 220 15% 15%;
+  --foreground: 0 0% 98%;
 
   --border: 220 15% 88%;
 
-  --card: 0 0% 96%;
+  --card: 220 15% 10%;
 
-  --card-foreground: 220 15% 15%;
+  --card-foreground: 0 0% 98%;
 
   --card-border: 220 15% 85%;
 
@@ -58,7 +58,7 @@
 
   --muted: 220 15% 92%;
 
-  --muted-foreground: 220 15% 40%;
+  --muted-foreground: 0 0% 70%;
 
   --accent: 280 90% 60%;
 
@@ -122,87 +122,86 @@
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
-.dark {
-  --button-outline: rgba(255,255,255, .10);
-  --badge-outline: rgba(255,255,255, .05);
+.light {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
 
-  --opaque-button-border-intensity: 9;  /* In terms of percentages */
+  --opaque-button-border-intensity: -8; /* In terms of percentages */
 
   /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
 
-  --background: 220 25% 8%;
+  --background: 0 0% 98%;
 
-  --foreground: 0 0% 95%;
+  --foreground: 220 15% 15%;
 
-  --border: 220 25% 18%;
+  --border: 220 15% 88%;
 
-  --card: 220 25% 10%;
+  --card: 0 0% 96%;
 
-  --card-foreground: 0 0% 95%;
+  --card-foreground: 220 15% 15%;
 
-  --card-border: 220 25% 20%;
+  --card-border: 220 15% 85%;
 
-  --sidebar: 220 25% 12%;
+  --sidebar: 220 15% 94%;
 
-  --sidebar-foreground: 0 0% 95%;
+  --sidebar-foreground: 220 15% 15%;
 
-  --sidebar-border: 220 25% 22%;
+  --sidebar-border: 220 15% 82%;
 
   --sidebar-primary: 240 80% 50%;
 
   --sidebar-primary-foreground: 0 0% 98%;
 
-  --sidebar-accent: 220 25% 15%;
+  --sidebar-accent: 220 25% 90%;
 
-  --sidebar-accent-foreground: 0 0% 95%;
+  --sidebar-accent-foreground: 220 15% 15%;
 
   --sidebar-ring: 240 80% 50%;
 
-  --popover: 220 25% 14%;
+  --popover: 0 0% 94%;
 
-  --popover-foreground: 0 0% 95%;
+  --popover-foreground: 220 15% 15%;
 
-  --popover-border: 220 25% 24%;
+  --popover-border: 220 15% 80%;
 
   --primary: 240 80% 50%;
 
   --primary-foreground: 0 0% 98%;
 
-  --secondary: 220 25% 16%;
+  --secondary: 220 25% 88%;
 
-  --secondary-foreground: 0 0% 95%;
+  --secondary-foreground: 220 15% 15%;
 
-  --muted: 220 25% 12%;
+  --muted: 220 15% 92%;
 
-  --muted-foreground: 0 0% 70%;
+  --muted-foreground: 220 15% 40%;
 
-  --accent: 280 90% 40%;
+  --accent: 280 90% 60%;
 
-  --accent-foreground: 0 0% 95%;
+  --accent-foreground: 0 0% 98%;
 
   --destructive: 0 72% 51%;
 
   --destructive-foreground: 0 0% 98%;
 
-  /* Used as the border around inputs. Dark mode: Should be a border that is light enough to have high contrast when rendered on a --card background. More contrast than standard --border */
-  --input: 220 25% 35%;
+  --input: 220 15% 75%;
   --ring: 240 80% 50%;
-  --chart-1: 240 80% 70%;
-  --chart-2: 280 90% 80%;
-  --chart-3: 220 50% 75%;
-  --chart-4: 260 75% 60%;
-  --chart-5: 240 25% 80%;
+  --chart-1: 240 80% 50%;
+  --chart-2: 280 90% 60%;
+  --chart-3: 220 25% 25%;
+  --chart-4: 260 75% 55%;
+  --chart-5: 240 50% 40%;
 
-  --shadow-2xs: 0px 2px 0px 0px hsl(220 25% 5% / 0.3);
-  --shadow-xs: 0px 2px 0px 0px hsl(220 25% 5% / 0.4);
-  --shadow-sm: 0px 2px 0px 0px hsl(220 25% 5% / 0.3), 0px 1px 2px -1px hsl(220 25% 3% / 0.4);
-  --shadow: 0px 2px 0px 0px hsl(220 25% 5% / 0.3), 0px 1px 2px -1px hsl(220 25% 3% / 0.4);
-  --shadow-md: 0px 2px 0px 0px hsl(220 25% 5% / 0.35), 0px 2px 4px -1px hsl(220 25% 3% / 0.45);
-  --shadow-lg: 0px 2px 0px 0px hsl(220 25% 5% / 0.4), 0px 4px 6px -1px hsl(220 25% 3% / 0.5);
-  --shadow-xl: 0px 2px 0px 0px hsl(220 25% 5% / 0.45), 0px 8px 10px -1px hsl(220 25% 3% / 0.55);
-  --shadow-2xl: 0px 2px 0px 0px hsl(220 25% 5% / 0.5);
+  --shadow-2xs: 0px 2px 0px 0px hsl(220 15% 85% / 0.2);
+  --shadow-xs: 0px 2px 0px 0px hsl(220 15% 85% / 0.3);
+  --shadow-sm: 0px 2px 0px 0px hsl(220 15% 85% / 0.2), 0px 1px 2px -1px hsl(220 15% 75% / 0.3);
+  --shadow: 0px 2px 0px 0px hsl(220 15% 85% / 0.2), 0px 1px 2px -1px hsl(220 15% 75% / 0.3);
+  --shadow-md: 0px 2px 0px 0px hsl(220 15% 85% / 0.25), 0px 2px 4px -1px hsl(220 15% 75% / 0.35);
+  --shadow-lg: 0px 2px 0px 0px hsl(220 15% 85% / 0.3), 0px 4px 6px -1px hsl(220 15% 75% / 0.4);
+  --shadow-xl: 0px 2px 0px 0px hsl(220 15% 85% / 0.35), 0px 8px 10px -1px hsl(220 15% 75% / 0.45);
+  --shadow-2xl: 0px 2px 0px 0px hsl(220 15% 85% / 0.4);
 
 }
 
