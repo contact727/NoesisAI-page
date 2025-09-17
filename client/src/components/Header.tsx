@@ -3,7 +3,6 @@ import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
 import { useActions } from '@/hooks/useActions';
-import CalendlyModal from '@/components/CalendlyModal';
 
 const navigation = [
   { name: 'Accueil', href: '/' },
@@ -152,8 +151,6 @@ export default function Header() {
           </div>
         </div>
       )}
-      
-      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
     </header>
   );
 }

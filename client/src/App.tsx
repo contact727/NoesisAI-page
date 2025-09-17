@@ -3,6 +3,9 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CalendlyProvider } from "@/contexts/CalendlyContext";
+import CalendlyModal from "@/components/CalendlyModal";
+import { useCalendlyContext } from "@/contexts/CalendlyContext";
 import Home from "@/pages/Home";
 import Services from "@/pages/Services";
 import Cases from "@/pages/Cases";
@@ -22,12 +25,25 @@ function Router() {
   );
 }
 
+function AppContent() {
+  const { isCalendlyOpen, closeCalendlyModal } = useCalendlyContext();
+  
+  return (
+    <>
+      <Toaster />
+      <Router />
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
+    </>
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Router />
+        <CalendlyProvider>
+          <AppContent />
+        </CalendlyProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

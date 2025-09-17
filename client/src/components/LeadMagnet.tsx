@@ -2,11 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 import { BookOpen, CheckCircle } from 'lucide-react';
 import LeadForm from '@/components/LeadForm';
-import CalendlyModal from '@/components/CalendlyModal';
 import { useActions } from '@/hooks/useActions';
 
 export default function LeadMagnet() {
-  const { openCalendlyModal, closeCalendlyModal, isCalendlyOpen } = useActions();
+  const { openCalendlyModal } = useActions();
 
   const handleLeadSuccess = () => {
     console.log('Lead submitted successfully!');
@@ -78,8 +77,6 @@ export default function LeadMagnet() {
           </div>
         </div>
       </div>
-      
-      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
     </div>
   );
 }

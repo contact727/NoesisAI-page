@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { track, ANALYTICS_EVENTS } from '@/utils/analytics';
+import { useCalendlyContext } from '@/contexts/CalendlyContext';
 
 interface LeadFormData {
   firstName: string;
@@ -15,7 +15,7 @@ interface SubmitLeadResult {
 }
 
 export function useActions() {
-  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
+  const { isCalendlyOpen, openCalendlyModal: openModal, closeCalendlyModal: closeModal } = useCalendlyContext();
   
   const openMailto = (subject?: string, body?: string) => {
     const email = import.meta.env.VITE_CONTACT_EMAIL ?? 'contact@noesisai.pro';
@@ -29,12 +29,12 @@ export function useActions() {
   };
 
   const openCalendlyModal = () => {
-    setIsCalendlyOpen(true);
+    openModal();
     track(ANALYTICS_EVENTS.CALENDLY_OPEN);
   };
 
   const closeCalendlyModal = () => {
-    setIsCalendlyOpen(false);
+    closeModal();
   };
 
   const openSocial = (url: string, platform?: string) => {

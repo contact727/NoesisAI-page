@@ -3,7 +3,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'wouter';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 import { useActions } from '@/hooks/useActions';
-import CalendlyModal from '@/components/CalendlyModal';
 
 const contactInfo = [
   {
@@ -27,7 +26,7 @@ const contactInfo = [
 ];
 
 export default function ContactCTA() {
-  const { openMailto, openCalendlyModal, closeCalendlyModal, isCalendlyOpen } = useActions();
+  const { openMailto, openCalendlyModal } = useActions();
   
   const handleContactClick = (info: any) => {
     if (info.action === 'email') {
@@ -100,8 +99,6 @@ export default function ContactCTA() {
           </Button>
         </div>
       </div>
-      
-      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
     </div>
   );
 }
