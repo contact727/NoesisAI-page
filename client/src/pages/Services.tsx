@@ -112,8 +112,8 @@ export default function Services() {
                 <Card key={service.title} className="hover-elevate transition-all duration-300" data-testid={`card-service-${index}`}>
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                        <service.icon className="h-6 w-6 text-primary-foreground" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                        <service.icon className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex gap-2">
                         <Badge variant="secondary" data-testid={`badge-timeline-${index}`}>
@@ -159,8 +159,8 @@ export default function Services() {
             <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-4">
               {benefits.map((benefit, index) => (
                 <div key={benefit.title} className="text-center" data-testid={`benefit-${index}`}>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary mx-auto">
-                    <benefit.icon className="h-6 w-6 text-primary-foreground" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 mx-auto">
+                    <benefit.icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="mt-4 font-semibold text-foreground" data-testid={`text-benefit-title-${index}`}>
                     {benefit.title}
@@ -175,17 +175,17 @@ export default function Services() {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-primary py-24 sm:py-32">
+        <div className="bg-gradient-to-b from-muted/20 to-primary/10 py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl" data-testid="text-cta-title">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl" data-testid="text-cta-title">
                 Prêt à automatiser vos processus ?
               </h2>
-              <p className="mt-6 text-lg leading-8 text-primary-foreground/80" data-testid="text-cta-subtitle">
+              <p className="mt-6 text-lg leading-8 text-muted-foreground" data-testid="text-cta-subtitle">
                 Commencez par un audit gratuit de vos workflows actuels.
               </p>
               <div className="mt-10">
-                <Button asChild size="lg" variant="secondary" data-testid="button-services-cta">
+                <Button asChild size="lg" data-testid="button-services-cta">
                   <Link href="/contact">
                     Demander un audit gratuit
                   </Link>
