@@ -1,10 +1,9 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import ValueBlocks from '@/components/ValueBlocks';
-import HowWeWork from '@/components/HowWeWork';
 import CaseStudies from '@/components/CaseStudies';
-import StackTools from '@/components/StackTools';
 import LeadMagnet from '@/components/LeadMagnet';
+import FAQ from '@/components/FAQ';
 import ContactCTA from '@/components/ContactCTA';
 import Footer from '@/components/Footer';
 
@@ -15,9 +14,8 @@ export default function Home() {
       <main>
         <Hero />
         <ValueBlocks />
-        <HowWeWork />
         <CaseStudies />
-        <StackTools />
+        <FAQ />
         <LeadMagnet />
         <ContactCTA />
       </main>
