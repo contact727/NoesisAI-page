@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import { useActions } from '@/hooks/useActions';
+import CalendlyModal from '@/components/CalendlyModal';
 
 const navigation = [
   { name: 'Accueil', href: '/' },
@@ -13,6 +15,7 @@ const navigation = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
+  const { openCalendlyModal, closeCalendlyModal, isCalendlyOpen } = useActions();
 
   return (
     <header className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
@@ -72,8 +75,8 @@ export default function Header() {
         </div>
         
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Button asChild data-testid="button-cta-header">
-            <Link href="/contact">Demander un audit gratuit</Link>
+          <Button onClick={openCalendlyModal} data-testid="button-cta-header">
+            Demander un audit gratuit
           </Button>
         </div>
       </nav>
@@ -133,10 +136,15 @@ export default function Header() {
                   })}
                 </div>
                 <div className="py-6">
-                  <Button asChild className="w-full" data-testid="button-cta-mobile">
-                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                      Demander un audit gratuit
-                    </Link>
+                  <Button 
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      openCalendlyModal();
+                    }} 
+                    className="w-full" 
+                    data-testid="button-cta-mobile"
+                  >
+                    Demander un audit gratuit
                   </Button>
                 </div>
               </div>
@@ -144,6 +152,8 @@ export default function Header() {
           </div>
         </div>
       )}
+      
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
     </header>
   );
 }

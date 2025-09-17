@@ -2,29 +2,41 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'wouter';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
+import { useActions } from '@/hooks/useActions';
+import CalendlyModal from '@/components/CalendlyModal';
 
 const contactInfo = [
   {
     icon: Phone,
     title: 'Téléphone',
     value: '+33 6 89 39 56 23',
-    href: 'tel:+33689395623'
+    action: 'phone'
   },
   {
     icon: Mail,
     title: 'Email',
     value: 'contact@noesisiai.pro',
-    href: 'mailto:contact@noesisiai.pro'
+    action: 'email'
   },
   {
     icon: MapPin,
     title: 'Adresse',
     value: 'Paris, France',
-    href: null
+    action: null
   },
 ];
 
 export default function ContactCTA() {
+  const { openMailto, openCalendlyModal, closeCalendlyModal, isCalendlyOpen } = useActions();
+  
+  const handleContactClick = (info: any) => {
+    if (info.action === 'email') {
+      openMailto();
+    } else if (info.action === 'phone') {
+      window.location.href = `tel:+33689395623`;
+    }
+  };
+  
   return (
     <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -47,14 +59,14 @@ export default function ContactCTA() {
                 <h3 className="font-semibold text-foreground mb-2" data-testid={`text-contact-title-${index}`}>
                   {info.title}
                 </h3>
-                {info.href ? (
-                  <a 
-                    href={info.href}
+                {info.action ? (
+                  <button 
+                    onClick={() => handleContactClick(info)}
                     className="text-muted-foreground hover:text-primary transition-colors"
-                    data-testid={`link-contact-${index}`}
+                    data-testid={`button-contact-${index}`}
                   >
                     {info.value}
-                  </a>
+                  </button>
                 ) : (
                   <p className="text-muted-foreground" data-testid={`text-contact-value-${index}`}>
                     {info.value}
@@ -82,14 +94,14 @@ export default function ContactCTA() {
         </div>
 
         <div className="text-center">
-          <Button asChild size="lg" className="px-8 py-4 text-lg" data-testid="button-contact-cta">
-            <Link href="/contact">
-              <MessageSquare className="mr-2 h-5 w-5" />
-              Demander un audit gratuit
-            </Link>
+          <Button onClick={openCalendlyModal} size="lg" className="px-8 py-4 text-lg" data-testid="button-contact-cta">
+            <MessageSquare className="mr-2 h-5 w-5" />
+            Demander un audit gratuit
           </Button>
         </div>
       </div>
+      
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
     </div>
   );
 }

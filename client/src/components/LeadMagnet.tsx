@@ -1,27 +1,15 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Link } from 'wouter';
-import { Download, BookOpen, CheckCircle, ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { BookOpen, CheckCircle } from 'lucide-react';
+import LeadForm from '@/components/LeadForm';
+import CalendlyModal from '@/components/CalendlyModal';
+import { useActions } from '@/hooks/useActions';
 
 export default function LeadMagnet() {
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { openCalendlyModal, closeCalendlyModal, isCalendlyOpen } = useActions();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      // todo: remove mock functionality - integrate with real email service
-      console.log('Lead magnet email submitted:', email);
-      setIsSubmitted(true);
-      
-      // Reset after 3 seconds for demo
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setEmail('');
-      }, 3000);
-    }
+  const handleLeadSuccess = () => {
+    console.log('Lead submitted successfully!');
   };
 
   const benefits = [
@@ -72,93 +60,26 @@ export default function LeadMagnet() {
                 <strong className="text-primary">Plus de 500 entreprises</strong> utilisent déjà nos méthodes pour automatiser leurs processus et réduire leurs coûts opérationnels.
               </p>
             </div>
+            
+            <div className="text-center mt-8">
+              <Button onClick={openCalendlyModal} variant="outline" size="lg" data-testid="button-request-quote">
+                Demander un devis personnalisé
+              </Button>
+            </div>
           </div>
 
           {/* Right side - Form */}
           <div>
-            <Card className="bg-card/50 backdrop-blur-md border-2 border-primary/20">
-              <CardContent className="p-8">
-                {!isSubmitted ? (
-                  <>
-                    <div className="text-center mb-6">
-                      <div className="flex justify-center mb-4">
-                        <div className="rounded-full bg-primary p-3">
-                          <Download className="h-6 w-6 text-primary-foreground" />
-                        </div>
-                      </div>
-                      
-                      <h4 className="text-xl font-semibold text-foreground mb-2">
-                        Téléchargement Gratuit
-                      </h4>
-                      
-                      <p className="text-sm text-muted-foreground">
-                        Entrez votre email pour recevoir le guide complet sur l'automatisation IA
-                      </p>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                      <div>
-                        <Input
-                          type="email"
-                          placeholder="votre@email.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                          className="text-center"
-                          data-testid="input-lead-email"
-                        />
-                      </div>
-                      
-                      <Button 
-                        type="submit" 
-                        size="lg" 
-                        className="w-full"
-                        data-testid="button-download-guide"
-                      >
-                        <Download className="mr-2 h-4 w-4" />
-                        Télécharger le Guide Gratuit
-                      </Button>
-                    </form>
-
-                    <p className="text-xs text-muted-foreground text-center mt-4">
-                      Pas de spam. Vous pouvez vous désabonner à tout moment.
-                    </p>
-                  </>
-                ) : (
-                  <div className="text-center py-6">
-                    <div className="flex justify-center mb-4">
-                      <div className="rounded-full bg-green-500/10 p-3">
-                        <CheckCircle className="h-6 w-6 text-green-500" />
-                      </div>
-                    </div>
-                    
-                    <h4 className="text-xl font-semibold text-foreground mb-2">
-                      Merci !
-                    </h4>
-                    
-                    <p className="text-muted-foreground">
-                      Vérifiez votre boîte email. Le guide vous attend ! 📧
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <div className="text-center mt-6">
-              <p className="text-sm text-muted-foreground mb-4">
-                Besoin d'une solution personnalisée ?
-              </p>
-              
-              <Button variant="outline" asChild data-testid="button-custom-quote">
-                <Link href="/contact">
-                  Demander un devis sur mesure
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+            <LeadForm
+              onSuccess={handleLeadSuccess}
+              title="Télécharger le guide gratuit"
+              description="Remplissez le formulaire pour accéder immédiatement au guide complet sur l'automatisation IA"
+            />
           </div>
         </div>
       </div>
+      
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
     </div>
   );
 }

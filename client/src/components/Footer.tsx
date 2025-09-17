@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { Linkedin, Instagram } from 'lucide-react';
+import { useActions } from '@/hooks/useActions';
 
 const navigation = {
   main: [
@@ -16,18 +17,22 @@ const navigation = {
   social: [
     {
       name: 'LinkedIn',
-      href: '#',
+      href: 'https://www.linkedin.com/in/ugo-sartini-04a14620a/',
       icon: Linkedin,
+      platform: 'linkedin',
     },
     {
       name: 'Instagram',
-      href: 'https://instagram.com/ugoia2025',
+      href: 'https://www.instagram.com/ugoia2025/',
       icon: Instagram,
+      platform: 'instagram',
     },
   ],
 };
 
 export default function Footer() {
+  const { openSocial } = useActions();
+  
   return (
     <footer className="bg-card border-t border-card-border">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
@@ -43,15 +48,15 @@ export default function Footer() {
             </p>
             <div className="flex space-x-6">
               {navigation.social.map((item) => (
-                <a
+                <button
                   key={item.name}
-                  href={item.href}
-                  className="text-muted-foreground hover:text-foreground"
-                  data-testid={`link-social-${item.name.toLowerCase()}`}
+                  onClick={() => openSocial(item.href, item.platform)}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={`Suivre NOESIS AI sur ${item.name}`}
+                  data-testid={`button-social-${item.name.toLowerCase()}`}
                 >
-                  <span className="sr-only">{item.name}</span>
                   <item.icon className="h-5 w-5" aria-hidden="true" />
-                </a>
+                </button>
               ))}
             </div>
           </div>
