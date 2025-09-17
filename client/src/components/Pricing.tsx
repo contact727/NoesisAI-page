@@ -8,8 +8,6 @@ import { Check, Star, Zap, Crown } from 'lucide-react';
 const plans = [
   {
     name: 'Assistant IA Basic',
-    price: '29€',
-    period: '/mois',
     description: 'Parfait pour débuter avec l\'automatisation',
     icon: Zap,
     features: [
@@ -24,13 +22,10 @@ const plans = [
       'Satisfaction garantie',
     ],
     popular: false,
-    cta: 'Commencer maintenant',
+    cta: 'Demander un devis',
   },
   {
     name: 'Assistant IA Pro',
-    price: '227€',
-    originalPrice: '320€',
-    period: '/mois',
     description: 'Solution complète pour automatiser votre entreprise',
     icon: Star,
     features: [
@@ -48,12 +43,10 @@ const plans = [
     ],
     popular: true,
     badge: '2 places restantes !',
-    cta: 'Commencer maintenant',
+    cta: 'Demander un devis',
   },
   {
     name: 'Crew AI Enterprise',
-    price: 'Sur mesure',
-    period: '',
     description: 'Solution sur mesure pour les grandes entreprises',
     icon: Crown,
     features: [
@@ -70,7 +63,7 @@ const plans = [
       'Satisfaction garantie',
     ],
     popular: false,
-    cta: 'Commencer maintenant',
+    cta: 'Demander un devis',
   },
 ];
 
@@ -83,10 +76,10 @@ export default function Pricing() {
             Tarification
           </h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl" data-testid="text-pricing-title">
-            Solutions d'IA adaptées à vos besoins
+            Solutions d'IA sur mesure
           </p>
           <p className="mt-6 text-lg leading-8 text-muted-foreground" data-testid="text-pricing-subtitle">
-            Choisissez la solution qui correspond le mieux à votre activité
+            Chaque projet étant unique, nous établissons un devis personnalisé adapté à vos besoins
           </p>
         </div>
 
@@ -124,18 +117,10 @@ export default function Pricing() {
                   {plan.name}
                 </CardTitle>
                 
-                <div className="mt-4">
-                  <div className="flex items-baseline justify-center gap-2">
-                    {plan.originalPrice && (
-                      <span className="text-lg text-muted-foreground line-through">
-                        {plan.originalPrice}
-                      </span>
-                    )}
-                    <span className="text-4xl font-bold text-foreground" data-testid={`text-plan-price-${index}`}>
-                      {plan.price}
-                    </span>
-                    <span className="text-muted-foreground">{plan.period}</span>
-                  </div>
+                <div className="mt-4 text-center">
+                  <span className="text-2xl font-bold text-primary" data-testid={`text-plan-price-${index}`}>
+                    Tarif sur devis
+                  </span>
                 </div>
                 
                 <p className="text-sm text-muted-foreground mt-4" data-testid={`text-plan-description-${index}`}>
@@ -183,9 +168,14 @@ export default function Pricing() {
         </div>
         
         <div className="text-center mt-12">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mb-6">
             Toutes nos solutions incluent une garantie de satisfaction et un support réactif
           </p>
+          <Button asChild size="lg" className="px-8 py-4 text-lg">
+            <Link href="/contact">
+              Demander votre devis gratuit
+            </Link>
+          </Button>
         </div>
       </div>
     </div>
