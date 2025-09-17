@@ -1,0 +1,120 @@
+Tu es un assistant de développement web chargé de générer un site complet, moderne et performant pour l’agence d’automatisation IA « NOESIS AI ».
+
+## 1) Références & identité de marque
+- Nom de la marque : NOESIS AI
+- Logo à intégrer (header + footer + favicon) : https://assets.noesisai.pro/3.png
+- Palette (à appliquer partout : boutons, liens, accents, badges) :
+  - Couleur primaire : [#HEX_PRIMARY]
+  - Couleur secondaire : [#HEX_SECONDARY]
+  - Neutres : #0B0B0C (texte), #F5F7FA (fond clair), #111318 (fond sombre), #E6E9EE (bordures)
+  - Accent (CTA/hover) : [#HEX_ACCENT]
+- Typographies (Google Fonts) :
+  - Titres : "Inter" ou "Plus Jakarta Sans"
+  - Texte : "Inter"
+- Empreinte visuelle : minimaliste, tech, premium. Grilles propres, icônes Lucide, légers dégradés, beaucoup d’espace blanc.
+- Exemples à suivre (structure, UX, ton – ne pas copier, s’en inspirer) :
+  1) https://melihai.com/
+  2) https://mystarten.fr/
+
+## 2) Stack & livrables
+- Tech : React + Vite + TailwindCSS (+ TypeScript).
+- Responsive complet mobile-first.
+- Pages statiques + un formulaire qui envoie vers [ACTION_FORM] (Formspree/Resend/route API).
+- Générer un favicon à partir du logo.
+- Fournir un README avec instructions : npm install / npm run dev / npm run build.
+
+## 3) Sitemap & sections (avec copy par défaut)
+### Page d’accueil (/)
+Hero
+- Sur-titre : « Agence d’automatisation IA »
+- H1 : « Gagnez des heures. Accélérez votre croissance. »
+- Sous-titre : « NOESIS AI conçoit et intègre des automatisations sur-mesure (n8n, Make, API, agents IA) pour éliminer les tâches répétitives et booster votre ROI. »
+- CTA principal : « Demander un audit gratuit »
+- CTA secondaire : « Voir nos cas d’usage »
+- Visuel : gradient subtil + mockup de workflow/analytics.
+
+Blocs « Valeur »
+- 4 cartes :
+  1) « Email & documents » — extraction factures, tri automatique, tagging CRM
+  2) « Ventes & marketing » — prospection multicanal, scoring leads, séquences IA
+  3) « Opérations » — synchronisation bases, reporting automatique
+  4) « Agents vocaux » — prise d’appels, RDV, FAQ
+
+Section « Comment on travaille »
+- Étapes : Audit → Prototype → Intégration → Pilotage/Optimisation
+- CTA : « Lancer un audit (gratuit) »
+
+Section « Cas d’usage »
+- 3 vignettes avec KPI placeholders :
+  - « PME bâtiment » — -70% temps admin, +30% réactivité SAV
+  - « Cabinet comptable » — saisie factures auto, -80% erreurs
+  - « Agence marketing » — génération & publication contenu semi-auto
+
+Section « Stack & outils »
+- Logos en niveau de gris : n8n, Make, OpenAI, Anthropic, Perplexity, Google Workspace, Airtable, Notion, Zapier
+
+Section « Témoignages »
+- 3 quotes (2 lignes max), avatar/initiales, rôle + entreprise
+
+Section « Lead magnet »
+- Titre : « Le guide pratique : 12 automatisations IA prêtes à déployer »
+- Texte : « Cas concrets, architecture, coûts, KPI. »
+- CTA : « Recevoir le guide » (ouvre un modal formulaire)
+
+Footer
+- Logo, description courte, liens : Accueil, Services, Études de cas, Blog, Contact, Mentions, Politique
+- Réseaux : LinkedIn
+- © NOESIS AI {année}
+
+### Page Services (/services)
+- H1 : « Services d’automatisation IA »
+- Sections :
+  - « Audit & roadmap »
+  - « Intégration & déploiement » (n8n/Make/APIs, sécurité & RGPD)
+  - « Agents IA (texte/voix) »
+  - « Support & optimisation continue »
+- CTA sticky « Demander un audit »
+
+### Page Études de cas (/cases)
+- Liste 6 vignettes filtrables
+- Template détail (slug) : Contexte, Objectifs, Solution, Résultats (KPI), Stack, Timeline, Suites
+
+### Page Blog (/blog)
+- Listing cartes + gabarit article (TOC auto, FAQ schema)
+
+### Page Contact (/contact)
+- Formulaire : Nom, Email, Société, Secteur (select), Message, Consentement RGPD
+- Action : [ACTION_FORM] (POST) + message succès
+
+## 4) Composants & design system
+- Boutons : primaire, secondaire (ghost)
+- Carte (hover), Badge, Alert, Accordion/FAQ
+- Section header avec eyebrow + H2 + paragraphe
+- Grilles : 12 colonnes, max-width ~1200px
+- Animations CSS discrètes (pas de libs lourdes)
+
+## 5) SEO & perfs
+- Meta par page (title/description), OG/Twitter
+- Lazy-load images, preconnect Google Fonts
+- Schema.org : Organization, Article, FAQ
+- sitemap.xml + robots.txt
+
+## 6) Accessibilité
+- Contrastes AA, alt text, labels, focus visible, sémantique H1/H2 correcte
+
+## 7) Contenus (remplir par défaut, modifiables)
+- Ton direct, bénéfices avant fonctionnalités
+- Explication brève des termes techniques entre parenthèses au premier usage
+- Placeholders [KPI], [SECTEUR], [STACK]
+
+## 8) Intégrations
+- Tag analytics ([PLAUSIBLE] ou [GA4]) dans index.html
+- Utilitaire pour envoyer le formulaire vers [ACTION_FORM] (ou email via Resend)
+- Fichiers /data/navigation.ts et /data/cases.ts pour contenu éditable
+
+## 9) Qualité & livraison
+- Code propre (TypeScript), composants réutilisables, commentaires courts
+- README clair (setup, build, déploiement Replit), variables à changer (logo, couleurs, liens)
+- Tout doit fonctionner au premier run
+
+Génère le projet maintenant avec tout ce qui précède.
