@@ -64,7 +64,7 @@ export default function ContactCTA() {
             </Card>
           ))}
           
-          <Card className="hover-elevate transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5">
+          <Card className="hover-elevate transition-all duration-300 bg-primary/5">
             <CardContent className="p-6 text-center">
               <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 mx-auto mb-4">
                 <MessageSquare className="h-6 w-6 text-primary" />

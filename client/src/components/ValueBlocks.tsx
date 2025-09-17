@@ -42,8 +42,8 @@ export default function ValueBlocks() {
             {features.map((feature, index) => (
               <Card key={feature.name} className="hover-elevate transition-all duration-300" data-testid={`card-feature-${index}`}>
                 <CardContent className="p-6">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                    <feature.icon className="h-6 w-6 text-primary-foreground" aria-hidden="true" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                    <feature.icon className="h-6 w-6 text-primary" aria-hidden="true" />
                   </div>
                   <dt className="mt-4 font-semibold text-foreground" data-testid={`text-feature-title-${index}`}>
                     {feature.name}
