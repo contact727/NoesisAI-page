@@ -1,0 +1,117 @@
+Tu es un assistant dev. Mon site NOESIS AI est déjà prototypé (React + Vite + Tailwind). Je veux que tu AJOUTES/CONNECTES toutes les actions suivantes proprement, accessibles, et traçables (analytics events).
+
+## Liens & actions à câbler
+1) Email contact
+   - Quand l’utilisateur clique sur "Contact" (bouton header/footer) ou sur toute icône email, ouvrir le client mail avec:
+     mailto:[CONTACT_EMAIL]?subject=[Demande%20d’information%20NOESIS%20AI]&body=[Bonjour%20NOESIS%20AI,%20je%20souhaite%20...]
+   - [CONTACT_EMAIL] par défaut = contact@noesisai.pro (laisser en variable d’environnement `VITE_CONTACT_EMAIL` avec fallback ci-dessus)
+   - Ajouter `rel="noopener noreferrer"` et `aria-label` pertinents.
+
+2) Audit gratuit (Calendly)
+   - CTA “Demander un audit gratuit” → ouvrir un modal Calendly (embed inline modal) avec l’URL:
+     https://calendly.com/contact-noesisiai/30min
+   - Si modal indisponible, fallback = nouvelle tab vers l’URL Calendly.
+   - Prévoir évènement d’analytics "calendly_open" et "calendly_scheduled" si le widget renvoie un event.
+   - Fournir un composant `<CalendlyModal />` réutilisable avec props `isOpen` et `onClose`.
+
+3) Réseaux sociaux
+   - LinkedIn profil: https://www.linkedin.com/in/ugo-sartini-04a14620a/
+   - Instagram: https://www.instagram.com/ugoia2025/
+   - Ouvrir en nouvel onglet, `rel="noopener noreferrer"`, `aria-label` explicites.
+
+4) Lead magnet (Guide)
+   - Le guide est hébergé ici: 
+     https://www.notion.so/NoesisAI-Guide-2705602ff08580108940e7de5c7a95ed?source=copy_link
+   - Sur la section "Lead magnet", mettre un formulaire avec les champs:
+     - Prénom (obligatoire)
+     - Nom (facultatif)
+     - Email (obligatoire, pattern email)
+     - Société (facultatif)
+     - Consentement RGPD (checkbox obligatoire) → "J’accepte d’être contacté par NOESIS AI au sujet du guide et de ressources associées."
+   - Validation UX: inline errors, disabled state, spinner.
+   - Après soumission réussie:
+     a) Afficher un message de succès clair
+     b) Proposer deux actions:
+        - Bouton "Ouvrir le guide maintenant" → ouvre l’URL Notion dans un nouvel onglet
+        - Bouton "Recevoir le guide par email" (si endpoint email configuré)
+   - Traquer "lead_submitted" et "guide_opened".
+
+## Stockage des leads (simple & fiable)
+Mettre en place **Option A (par défaut)** avec possibilité de passer à Option B si variable d’env change.
+
+### Option A — Formspree (no-backend)
+- Ajouter une variable `VITE_FORMSPREE_ENDPOINT` (ex: "https://formspree.io/f/xxxxxxx").
+- Si la variable est définie, le formulaire envoie en `POST` JSON à cet endpoint avec ces clés:
+  {
+    "firstName": "...",
+    "lastName": "...",
+    "email": "...",
+    "company": "...",
+    "consent": true,
+    "source": "website:noesisai",
+    "path": window.location.pathname,
+    "timestamp": new Date().toISOString()
+  }
+- Gérer les statuts (200/201 = success, sinon afficher une erreur).
+- Documenter dans README comment créer l’endpoint Formspree + activer l’auto-réponse email.
+
+### Option B — API interne légère (Express sur Replit)
+- Si `VITE_FORMSPREE_ENDPOINT` est vide, expose un petit endpoint `/api/lead` (Express) qui:
+  - Valide et log les données
+  - Écrit dans un fichier `data/leads.json` (append) et, si possible, envoie un email via Resend (si `RESEND_API_KEY` présent)
+- Fournir router, CORS, et doc minimale dans README.
+- Jamais exposer de secrets dans le front. Utiliser variables Replit.
+
+## Implémentation concrète
+- Créer un composant `useActions.ts` qui expose des helpers:
+  - `openMailto(subject?: string, body?: string)`
+  - `openCalendlyModal()`
+  - `openSocial(url: string)`
+  - `submitLead(formData): Promise<{ok: boolean, error?: string}>`
+- Idem un composant `LeadForm.tsx` réutilisable, avec props `onSuccess`.
+- Ajouter des `data-testid` pour e2e (contact_button, audit_button, linkedin_link, instagram_link, lead_form_submit, guide_open_button).
+- Accessibilité: labels, `aria-live="polite"` pour messages, focus management (focus dans le modal, retour focus à la fermeture).
+- SEO: veiller à ce que les boutons-clés aient du texte, pas uniquement des icônes.
+
+## Analytics (facultatif mais souhaité)
+- Prévoir une fonction `track(eventName: string, payload?: Record<string, any>)`.
+- Si `VITE_PLAUSIBLE_DOMAIN` est défini, envoyer un event vers Plausible via `window.plausible?.(eventName, { props: payload })`.
+- Traquer: "email_click", "calendly_open", "calendly_scheduled", "linkedin_click", "instagram_click", "lead_submitted", "guide_opened".
+
+## Exemples de câblage (à intégrer)
+- Email:
+  const email = import.meta.env.VITE_CONTACT_EMAIL ?? 'contact@noesisai.pro';
+  const subject = encodeURIComponent('Demande d’information NOESIS AI');
+  const body = encodeURIComponent('Bonjour NOESIS AI, ...');
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  track('email_click');
+
+- Calendly (modal):
+  Utiliser le script officiel embed ou react-calendly.
+  <InlineWidget url="https://calendly.com/contact-noesisiai/30min" styles={{ height: '650px' }} />
+  Evénements: onLoad → track('calendly_open'); onEventScheduled → track('calendly_scheduled')
+
+- Lead form (submit):
+  if (import.meta.env.VITE_FORMSPREE_ENDPOINT) {
+    await fetch(import.meta.env.VITE_FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+  } else {
+    await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+  }
+
+## Finition
+- Mettre à jour le README: variables d’env, comment changer l’email, brancher Formspree, activer Plausible.
+- Ajouter tests manuels (checklist en README): 
+  1) Click "Contact" → ouvre email
+  2) Click "Audit gratuit" → modal Calendly
+  3) Click LinkedIn/Instagram → nouvel onglet ok
+  4) Lead form valide/invalide → messages corrects
+  5) Submission → succès + bouton "Ouvrir le guide" (nouvel onglet)
+  6) Events analytics s’envoient si activés
