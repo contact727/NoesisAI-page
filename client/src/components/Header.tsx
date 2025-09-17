@@ -23,7 +23,7 @@ export default function Header() {
             <span className="sr-only">NOESIS AI</span>
             <img
               className="h-8 w-auto"
-              src="https://assets.noesisai.pro/3.png"
+              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758101582604.png"
               alt="NOESIS AI"
             />
           </Link>
@@ -73,7 +73,7 @@ export default function Header() {
                 <span className="sr-only">NOESIS AI</span>
                 <img
                   className="h-8 w-auto"
-                  src="https://assets.noesisai.pro/3.png"
+                  src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758101582604.png"
                   alt="NOESIS AI"
                 />
               </Link>

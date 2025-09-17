@@ -12,7 +12,7 @@ export default function Hero() {
         aria-hidden="true"
       >
         <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary to-accent opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-br from-primary via-accent to-primary opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           style={{
             clipPath:
               'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
@@ -22,33 +22,53 @@ export default function Hero() {
       
       <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div className="text-center">
-          <div className="mb-8">
-            <span className="inline-flex items-center gap-x-2 rounded-full bg-accent/10 px-4 py-2 text-sm font-medium text-accent-foreground ring-1 ring-inset ring-accent/20">
-              Agence d'automatisation IA
-            </span>
+          <div className="mb-12">
+            <div className="mb-8">
+              <span className="inline-flex items-center gap-x-2 rounded-full bg-primary/10 px-6 py-3 text-sm font-semibold text-primary ring-1 ring-inset ring-primary/20 backdrop-blur-md">
+                🤖 Agence d'automatisation IA
+              </span>
+            </div>
+            
+            <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-7xl mb-6" data-testid="text-hero-title">
+              <div className="mb-2">Automatisez.</div>
+              <div className="mb-2 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                Optimisez.
+              </div>
+              <div>Gagnez du temps.</div>
+            </h1>
           </div>
           
-          <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl" data-testid="text-hero-title">
-            Gagnez des heures.{' '}
-            <span className="text-primary">Accélérez votre croissance.</span>
-          </h1>
-          
-          <p className="mt-6 text-lg leading-8 text-muted-foreground max-w-2xl mx-auto" data-testid="text-hero-subtitle">
-            NOESIS AI conçoit et intègre des automatisations sur-mesure (n8n, Make, API, agents IA) pour éliminer les tâches répétitives et booster votre ROI.
+          <p className="text-xl leading-8 text-muted-foreground max-w-3xl mx-auto mb-4" data-testid="text-hero-subtitle">
+            Solutions IA sur mesure pour professionnels
           </p>
           
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Button asChild size="lg" data-testid="button-primary-cta">
+          <p className="text-lg text-primary font-semibold mb-12">
+            dès 29€/mois
+          </p>
+          
+          <div className="flex items-center justify-center gap-x-6 mb-16">
+            <Button asChild size="lg" className="px-8 py-4 text-lg" data-testid="button-primary-cta">
               <Link href="/contact">
-                Demander un audit gratuit
-                <ArrowRight className="ml-2 h-4 w-4" />
+                Découvrir nos solutions
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            
-            <Button variant="outline" size="lg" data-testid="button-secondary-cta">
-              <Play className="mr-2 h-4 w-4" />
-              Voir nos cas d'usage
-            </Button>
+          </div>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">+40%</div>
+              <div className="text-sm text-muted-foreground">de productivité en moyenne</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-accent mb-2">24/7</div>
+              <div className="text-sm text-muted-foreground">disponibilité garantie</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary mb-2">15h</div>
+              <div className="text-sm text-muted-foreground">économisées par semaine</div>
+            </div>
           </div>
         </div>
       </div>

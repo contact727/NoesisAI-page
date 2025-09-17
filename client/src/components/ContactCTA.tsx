@@ -1,0 +1,95 @@
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Link } from 'wouter';
+import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
+
+const contactInfo = [
+  {
+    icon: Phone,
+    title: 'Téléphone',
+    value: '+33 07 69 88 83 85',
+    href: 'tel:+33769888385'
+  },
+  {
+    icon: Mail,
+    title: 'Email',
+    value: 'contact@noesisai.pro',
+    href: 'mailto:contact@noesisai.pro'
+  },
+  {
+    icon: MapPin,
+    title: 'Adresse',
+    value: 'Paris, France',
+    href: null
+  },
+];
+
+export default function ContactCTA() {
+  return (
+    <div className="py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center mb-16">
+          <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl mb-6" data-testid="text-contact-title">
+            Discutons de votre projet
+          </h2>
+          <p className="text-xl leading-8 text-muted-foreground" data-testid="text-contact-subtitle">
+            Transformez votre entreprise avec nos solutions d'IA sur mesure
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
+          {contactInfo.map((info, index) => (
+            <Card key={info.title} className="hover-elevate transition-all duration-300" data-testid={`card-contact-${index}`}>
+              <CardContent className="p-6 text-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 mx-auto mb-4">
+                  <info.icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2" data-testid={`text-contact-title-${index}`}>
+                  {info.title}
+                </h3>
+                {info.href ? (
+                  <a 
+                    href={info.href}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                    data-testid={`link-contact-${index}`}
+                  >
+                    {info.value}
+                  </a>
+                ) : (
+                  <p className="text-muted-foreground" data-testid={`text-contact-value-${index}`}>
+                    {info.value}
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+          
+          <Card className="hover-elevate transition-all duration-300 bg-gradient-to-br from-primary/5 to-accent/5">
+            <CardContent className="p-6 text-center">
+              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 mx-auto mb-4">
+                <MessageSquare className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">
+                Pourquoi nous choisir ?
+              </h3>
+              <div className="space-y-1 text-sm text-muted-foreground">
+                <div>• Configuration personnalisée</div>
+                <div>• Support réactif</div>
+                <div>• Satisfaction garantie</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="text-center">
+          <Button asChild size="lg" className="px-8 py-4 text-lg" data-testid="button-contact-cta">
+            <Link href="/contact">
+              <MessageSquare className="mr-2 h-5 w-5" />
+              Demander un audit gratuit
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

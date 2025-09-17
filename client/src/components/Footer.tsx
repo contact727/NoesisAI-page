@@ -30,7 +30,7 @@ export default function Footer() {
           <div className="space-y-4">
             <img
               className="h-8 w-auto"
-              src="https://assets.noesisai.pro/3.png"
+              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758101582604.png"
               alt="NOESIS AI"
             />
             <p className="text-sm leading-6 text-muted-foreground max-w-md" data-testid="text-footer-description">

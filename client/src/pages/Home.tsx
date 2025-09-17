@@ -5,7 +5,8 @@ import HowWeWork from '@/components/HowWeWork';
 import CaseStudies from '@/components/CaseStudies';
 import StackTools from '@/components/StackTools';
 import Testimonials from '@/components/Testimonials';
-import LeadMagnet from '@/components/LeadMagnet';
+import Pricing from '@/components/Pricing';
+import ContactCTA from '@/components/ContactCTA';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -19,7 +20,8 @@ export default function Home() {
         <CaseStudies />
         <StackTools />
         <Testimonials />
-        <LeadMagnet />
+        <Pricing />
+        <ContactCTA />
       </main>
       <Footer />
     </div>
