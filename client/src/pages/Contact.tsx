@@ -143,7 +143,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">Email</div>
-                        <div className="text-muted-foreground">contact@noesisai.pro</div>
+                        <div className="text-muted-foreground">contact@noesisiai.pro</div>
                       </div>
                     </div>
                     
@@ -153,7 +153,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">Téléphone</div>
-                        <div className="text-muted-foreground">+33 1 23 45 67 89</div>
+                        <div className="text-muted-foreground">+33 6 89 39 56 23</div>
                       </div>
                     </div>
                     
