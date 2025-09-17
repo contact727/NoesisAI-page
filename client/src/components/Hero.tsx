@@ -1,7 +1,6 @@
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play } from 'lucide-react';
-import heroImage from '@assets/generated_images/Hero_workflow_dashboard_mockup_f880d7a3.png';
 
 export default function Hero() {
   return (
@@ -69,19 +68,6 @@ export default function Hero() {
         </div>
       </div>
       
-      {/* Hero image */}
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="mt-16 flow-root sm:mt-24">
-          <div className="-m-2 rounded-xl bg-background/10 p-2 ring-1 ring-inset ring-border/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-            <img
-              src={heroImage}
-              alt="Workflow automation dashboard"
-              className="rounded-md shadow-2xl ring-1 ring-border/10"
-              data-testid="img-hero-dashboard"
-            />
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
