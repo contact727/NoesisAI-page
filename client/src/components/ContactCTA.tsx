@@ -7,14 +7,14 @@ const contactInfo = [
   {
     icon: Phone,
     title: 'Téléphone',
-    value: '+33 07 69 88 83 85',
-    href: 'tel:+33769888385'
+    value: '+33 6 89 39 56 23',
+    href: 'tel:+33689395623'
   },
   {
     icon: Mail,
     title: 'Email',
-    value: 'contact@noesisai.pro',
-    href: 'mailto:contact@noesisai.pro'
+    value: 'contact@noesisiai.pro',
+    href: 'mailto:contact@noesisiai.pro'
   },
   {
     icon: MapPin,

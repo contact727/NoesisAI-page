@@ -38,12 +38,8 @@ export default function Hero() {
             </h1>
           </div>
           
-          <p className="text-xl leading-8 text-muted-foreground max-w-3xl mx-auto mb-4" data-testid="text-hero-subtitle">
+          <p className="text-xl leading-8 text-muted-foreground max-w-3xl mx-auto mb-12" data-testid="text-hero-subtitle">
             Solutions IA sur mesure pour professionnels
-          </p>
-          
-          <p className="text-lg text-primary font-semibold mb-12">
-            dès 29€/mois
           </p>
           
           <div className="flex items-center justify-center gap-x-6 mb-16">
