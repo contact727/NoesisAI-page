@@ -4,6 +4,8 @@ import { storage } from "./storage";
 import { z } from "zod";
 import fs from "fs/promises";
 import path from "path";
+import { createNocoDBService } from "./services/nocodb";
+import { createGoogleSheetsService } from "./services/googlesheets";
 
 // Lead form validation schema
 const leadSchema = z.object({
@@ -20,7 +22,11 @@ const leadSchema = z.object({
 type Lead = z.infer<typeof leadSchema>;
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // API route for lead submission (Option B)
+  // Initialize external services
+  const nocoDBService = createNocoDBService();
+  const googleSheetsService = createGoogleSheetsService();
+  
+  // API route for lead submission (Enhanced with multiple storage options)
   app.post('/api/lead', async (req, res) => {
     try {
       // Validate request body
@@ -30,45 +36,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const dataDir = path.join(process.cwd(), 'data');
       await fs.mkdir(dataDir, { recursive: true });
       
-      // Prepare lead data with ID and timestamp
       const leadData = {
-        id: Date.now().toString(),
         ...validatedData,
+        id: Date.now().toString(),
         createdAt: new Date().toISOString(),
       };
       
-      // Read existing leads or create empty array
-      const leadsFile = path.join(dataDir, 'leads.json');
-      let leads: any[] = [];
+      const results = [];
       
-      try {
-        const existingData = await fs.readFile(leadsFile, 'utf-8');
-        leads = JSON.parse(existingData);
-      } catch (error) {
-        // File doesn't exist yet, start with empty array
-        leads = [];
+      // Try to save to external services first (NocoDB, Google Sheets)
+      if (nocoDBService) {
+        try {
+          const nocoResult = await nocoDBService.createLead(leadData);
+          results.push({ service: 'NocoDB', success: true, id: nocoResult.Id });
+        } catch (error) {
+          console.error('NocoDB save failed:', error);
+          results.push({ service: 'NocoDB', success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+        }
       }
       
-      // Append new lead
-      leads.push(leadData);
+      if (googleSheetsService) {
+        try {
+          const sheetsResult = await googleSheetsService.createLead(leadData);
+          results.push({ service: 'Google Sheets', success: true, range: sheetsResult.updates?.updatedRange });
+        } catch (error) {
+          console.error('Google Sheets save failed:', error);
+          results.push({ service: 'Google Sheets', success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+        }
+      }
       
-      // Write back to file
-      await fs.writeFile(leadsFile, JSON.stringify(leads, null, 2));
+      // Always save to local file as backup
+      try {
+        const dataDir = path.join(process.cwd(), 'data');
+        await fs.mkdir(dataDir, { recursive: true });
+        
+        const leadsFile = path.join(dataDir, 'leads.json');
+        let leads: any[] = [];
+        
+        try {
+          const existingData = await fs.readFile(leadsFile, 'utf-8');
+          leads = JSON.parse(existingData);
+        } catch (error) {
+          leads = [];
+        }
+        
+        leads.push(leadData);
+        await fs.writeFile(leadsFile, JSON.stringify(leads, null, 2));
+        results.push({ service: 'Local File', success: true, id: leadData.id });
+      } catch (error) {
+        console.error('Local file save failed:', error);
+        results.push({ service: 'Local File', success: false, error: error instanceof Error ? error.message : 'Unknown error' });
+      }
       
       // Log success
       console.log('Lead saved:', {
         email: leadData.email,
         name: `${leadData.firstName} ${leadData.lastName || ''}`.trim(),
         company: leadData.company,
-        timestamp: leadData.timestamp,
+        results: results
       });
       
-      // Send success response
-      res.status(201).json({
-        success: true,
-        message: 'Lead enregistré avec succès',
-        id: leadData.id,
-      });
+      // Send success response if at least one service succeeded
+      const hasSuccess = results.some(r => r.success);
+      
+      if (hasSuccess) {
+        res.status(201).json({
+          success: true,
+          message: 'Lead enregistré avec succès',
+          id: leadData.id,
+          saved_to: results.filter(r => r.success).map(r => r.service)
+        });
+      } else {
+        throw new Error('Aucun service de stockage n\'a réussi');
+      }
       
     } catch (error) {
       console.error('Lead submission error:', error);
