@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { BookOpen, CheckCircle } from 'lucide-react';
 import LeadForm from '@/components/LeadForm';
-import { useActions } from '@/hooks/useActions';
 
 export default function LeadMagnet() {
-  const { openCalendlyModal } = useActions();
+  const [, setLocation] = useLocation();
 
   const handleLeadSuccess = () => {
     console.log('Lead submitted successfully!');
@@ -61,7 +60,7 @@ export default function LeadMagnet() {
             </div>
             
             <div className="text-center mt-8">
-              <Button onClick={openCalendlyModal} variant="outline" size="lg" data-testid="button-request-quote">
+              <Button onClick={() => setLocation('/contact')} variant="outline" size="lg" data-testid="button-request-quote">
                 Demander un devis personnalisé
               </Button>
             </div>

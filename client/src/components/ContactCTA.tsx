@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 import { useActions } from '@/hooks/useActions';
 
@@ -26,7 +26,8 @@ const contactInfo = [
 ];
 
 export default function ContactCTA() {
-  const { openMailto, openCalendlyModal } = useActions();
+  const { openMailto } = useActions();
+  const [, setLocation] = useLocation();
   
   const handleContactClick = (info: any) => {
     if (info.action === 'email') {
@@ -93,7 +94,7 @@ export default function ContactCTA() {
         </div>
 
         <div className="text-center">
-          <Button onClick={openCalendlyModal} size="lg" className="px-8 py-4 text-lg" data-testid="button-contact-cta">
+          <Button onClick={() => setLocation('/contact')} size="lg" className="px-8 py-4 text-lg" data-testid="button-contact-cta">
             <MessageSquare className="mr-2 h-5 w-5" />
             Demander un audit gratuit
           </Button>

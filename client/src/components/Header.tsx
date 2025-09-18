@@ -13,8 +13,7 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [location] = useLocation();
-  const { openCalendlyModal, closeCalendlyModal, isCalendlyOpen } = useActions();
+  const [location, setLocation] = useLocation();
 
   return (
     <header className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
@@ -101,7 +100,7 @@ export default function Header() {
         </div>
         
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Button onClick={openCalendlyModal} data-testid="button-cta-header">
+          <Button onClick={() => setLocation('/contact')} data-testid="button-cta-header">
             Demander un audit gratuit
           </Button>
         </div>
@@ -204,7 +203,7 @@ export default function Header() {
                 <Button 
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    openCalendlyModal();
+                    setLocation('/contact');
                   }} 
                   className="w-full py-4 text-lg font-semibold" 
                   data-testid="button-cta-mobile"
