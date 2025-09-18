@@ -38,22 +38,32 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="relative h-10 w-10">
-                {/* Grand cercle extérieur */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 opacity-30"></div>
-                {/* Cercle intérieur principal */}
-                <div className="absolute inset-1 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                  {/* Motif losange central */}
-                  <svg width="12" height="12" viewBox="0 0 12 12" className="text-white">
-                    <g stroke="currentColor" fill="currentColor" strokeWidth="1">
-                      {/* Losange central avec 4 points */}
-                      <circle cx="6" cy="3" r="1.2"/>
-                      <circle cx="9" cy="6" r="1.2"/>
-                      <circle cx="6" cy="9" r="1.2"/>
-                      <circle cx="3" cy="6" r="1.2"/>
-                      {/* Connexions entre les points */}
-                      <path d="M6,3 L9,6 L6,9 L3,6 Z" fill="none" strokeWidth="1.2" strokeLinejoin="round"/>
-                    </g>
-                  </svg>
+                {/* Cercle extérieur le plus grand */}
+                <div className="absolute inset-0 rounded-full p-0.5 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600">
+                  {/* Fond sombre intérieur */}
+                  <div className="h-full w-full rounded-full bg-gray-900 flex items-center justify-center">
+                    {/* Cercle intérieur avec dégradé */}
+                    <div className="h-6 w-6 rounded-full p-0.5 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600">
+                      {/* Fond sombre pour le motif */}
+                      <div className="h-full w-full rounded-full bg-gray-900 flex items-center justify-center">
+                        {/* Motif losange central */}
+                        <svg width="12" height="12" viewBox="0 0 16 16" className="text-blue-400">
+                          <g fill="currentColor" stroke="currentColor" strokeWidth="1">
+                            {/* 4 points du losange */}
+                            <circle cx="8" cy="4" r="1.5"/>
+                            <circle cx="12" cy="8" r="1.5"/>
+                            <circle cx="8" cy="12" r="1.5"/>
+                            <circle cx="4" cy="8" r="1.5"/>
+                            {/* Connexions entre les points */}
+                            <line x1="8" y1="4" x2="12" y2="8" strokeWidth="1.5"/>
+                            <line x1="12" y1="8" x2="8" y2="12" strokeWidth="1.5"/>
+                            <line x1="8" y1="12" x2="4" y2="8" strokeWidth="1.5"/>
+                            <line x1="4" y1="8" x2="8" y2="4" strokeWidth="1.5"/>
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <span className="text-xl font-bold text-foreground">NOESIS AI</span>
