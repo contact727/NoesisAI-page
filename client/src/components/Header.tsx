@@ -15,6 +15,29 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location, setLocation] = useLocation();
 
+  const handleFAQClick = () => {
+    setMobileMenuOpen(false);
+    
+    if (location === '/') {
+      // Si on est déjà sur la page d'accueil, faire défiler vers la FAQ
+      setTimeout(() => {
+        const faqElement = document.getElementById('faq');
+        if (faqElement) {
+          faqElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // Si on n'est pas sur la page d'accueil, naviguer vers "/" puis vers la FAQ
+      setLocation('/');
+      setTimeout(() => {
+        const faqElement = document.getElementById('faq');
+        if (faqElement) {
+          faqElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 300);
+    }
+  };
+
   return (
     <header className="bg-background/80 backdrop-blur-md border-b border-border sticky top-0 z-50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
@@ -72,16 +95,16 @@ export default function Header() {
           {navigation.map((item) => {
             if (item.href === '/#faq') {
               return (
-                <a
+                <button
                   key={item.name}
-                  href={item.href}
-                  className={`text-sm font-semibold leading-6 transition-colors hover:text-primary ${
+                  onClick={handleFAQClick}
+                  className={`text-sm font-semibold leading-6 transition-colors hover:text-primary bg-transparent border-none cursor-pointer ${
                     location === '/' ? 'text-primary' : 'text-foreground'
                   }`}
                   data-testid={`link-nav-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                 >
                   {item.name}
-                </a>
+                </button>
               );
             }
             return (
@@ -173,15 +196,14 @@ export default function Header() {
                 {navigation.map((item) => {
                   if (item.href === '/#faq') {
                     return (
-                      <a
+                      <button
                         key={item.name}
-                        href={item.href}
-                        className="block text-3xl font-bold text-foreground hover:text-primary transition-colors py-2"
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={handleFAQClick}
+                        className="block text-3xl font-bold text-foreground hover:text-primary transition-colors py-2 bg-transparent border-none cursor-pointer w-full"
                         data-testid={`link-mobile-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {item.name}
-                      </a>
+                      </button>
                     );
                   }
                   return (
