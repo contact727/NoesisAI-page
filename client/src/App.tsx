@@ -10,6 +10,7 @@ import Home from "@/pages/Home";
 import Services from "@/pages/Services";
 import Cases from "@/pages/Cases";
 import Contact from "@/pages/Contact";
+import Equipe from "@/pages/Equipe";
 import Legal from "@/pages/Legal";
 import Privacy from "@/pages/Privacy";
 import NotFound from "@/pages/NotFound";
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/cases" component={Cases} />
       <Route path="/contact" component={Contact} />
+      <Route path="/equipe" component={Equipe} />
       <Route path="/legal" component={Legal} />
       <Route path="/privacy" component={Privacy} />
       {/* Fallback to 404 */}
