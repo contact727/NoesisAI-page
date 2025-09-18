@@ -107,39 +107,39 @@ export default function Header() {
         </div>
       </nav>
       
-      {/* Mobile menu */}
+      {/* Mobile menu - Rendered outside normal flow */}
       {mobileMenuOpen && (
-        <div className="lg:hidden" role="dialog" aria-modal="true">
-          {/* Overlay sombre derrière le menu */}
+        <>
+          {/* Overlay backdrop */}
           <div 
-            className="fixed inset-0 z-[9998] bg-black/50" 
+            className="lg:hidden fixed inset-0 z-[9998] bg-black/50" 
             onClick={() => setMobileMenuOpen(false)}
-            aria-hidden="true"
-          ></div>
-          {/* Menu principal */}
-          <div className="fixed inset-y-0 right-0 z-[9999] w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-border shadow-xl">
-            <div className="flex items-center justify-between">
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh' }}
+          />
+          
+          {/* Mobile menu panel */}
+          <div 
+            className="lg:hidden fixed inset-0 z-[9999] bg-background"
+            style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh' }}
+            role="dialog" 
+            aria-modal="true"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-border">
               <Link href="/" className="-m-1.5 p-1.5" data-testid="link-logo-mobile">
                 <span className="sr-only">NOESIS AI</span>
                 <div className="flex items-center gap-3">
                   <div className="relative h-10 w-10">
-                    {/* Cercle extérieur le plus grand */}
                     <div className="absolute inset-0 rounded-full p-0.5 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600">
-                      {/* Fond sombre intérieur */}
                       <div className="h-full w-full rounded-full bg-gray-900 flex items-center justify-center">
-                        {/* Cercle intérieur avec dégradé */}
                         <div className="h-6 w-6 rounded-full p-0.5 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600">
-                          {/* Fond sombre pour le motif */}
                           <div className="h-full w-full rounded-full bg-gray-900 flex items-center justify-center">
-                            {/* Motif losange central */}
                             <svg width="12" height="12" viewBox="0 0 16 16" className="text-blue-400">
                               <g fill="currentColor" stroke="currentColor" strokeWidth="1">
-                                {/* 4 points du losange */}
                                 <circle cx="8" cy="4" r="1.5"/>
                                 <circle cx="12" cy="8" r="1.5"/>
                                 <circle cx="8" cy="12" r="1.5"/>
                                 <circle cx="4" cy="8" r="1.5"/>
-                                {/* Connexions entre les points */}
                                 <line x1="8" y1="4" x2="12" y2="8" strokeWidth="1.5"/>
                                 <line x1="12" y1="8" x2="8" y2="12" strokeWidth="1.5"/>
                                 <line x1="8" y1="12" x2="4" y2="8" strokeWidth="1.5"/>
@@ -164,52 +164,57 @@ export default function Header() {
                 <X className="h-6 w-6" aria-hidden="true" />
               </Button>
             </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-border">
-                <div className="space-y-2 py-6">
-                  {navigation.map((item) => {
-                    if (item.href === '/#faq') {
-                      return (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-muted"
-                          onClick={() => setMobileMenuOpen(false)}
-                          data-testid={`link-mobile-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
-                        >
-                          {item.name}
-                        </a>
-                      );
-                    }
+            
+            {/* Navigation links - full height container */}
+            <div 
+              className="flex flex-col justify-center px-6"
+              style={{ height: 'calc(100vh - 100px)' }}
+            >
+              <nav className="space-y-8 text-center">
+                {navigation.map((item) => {
+                  if (item.href === '/#faq') {
                     return (
-                      <Link
+                      <a
                         key={item.name}
                         href={item.href}
-                        className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-muted"
+                        className="block text-3xl font-bold text-foreground hover:text-primary transition-colors py-2"
                         onClick={() => setMobileMenuOpen(false)}
                         data-testid={`link-mobile-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {item.name}
-                      </Link>
+                      </a>
                     );
-                  })}
-                </div>
-                <div className="py-6">
-                  <Button 
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      openCalendlyModal();
-                    }} 
-                    className="w-full" 
-                    data-testid="button-cta-mobile"
-                  >
-                    Demander un audit gratuit
-                  </Button>
-                </div>
+                  }
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className="block text-3xl font-bold text-foreground hover:text-primary transition-colors py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                      data-testid={`link-mobile-${item.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                })}
+              </nav>
+              
+              {/* CTA Button */}
+              <div className="mt-12 px-4">
+                <Button 
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openCalendlyModal();
+                  }} 
+                  className="w-full py-4 text-lg font-semibold" 
+                  data-testid="button-cta-mobile"
+                >
+                  Demander un audit gratuit
+                </Button>
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </header>
   );
