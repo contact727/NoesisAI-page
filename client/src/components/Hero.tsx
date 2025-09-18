@@ -19,7 +19,7 @@ export default function Hero() {
         />
       </div>
       
-      <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+      <div className="mx-auto max-w-2xl py-20 sm:py-28 lg:py-32">
         <div className="text-center">
           <div className="mb-12">
             <div className="mb-8">
