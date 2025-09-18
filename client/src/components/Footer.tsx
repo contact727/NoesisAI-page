@@ -36,9 +36,34 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                <div className="h-4 w-4 border-2 border-white rounded-full"></div>
+            <div className="flex items-center gap-3">
+              <div className="relative h-10 w-10">
+                {/* Cercle extérieur */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-purple-600 p-0.5">
+                  {/* Cercle intérieur */}
+                  <div className="h-full w-full rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    {/* Motif réseau central */}
+                    <svg width="16" height="16" viewBox="0 0 16 16" className="text-white">
+                      <g fill="currentColor">
+                        {/* Points du réseau */}
+                        <circle cx="8" cy="4" r="1.5"/>
+                        <circle cx="4" cy="8" r="1.5"/>
+                        <circle cx="12" cy="8" r="1.5"/>
+                        <circle cx="8" cy="12" r="1.5"/>
+                        <circle cx="8" cy="8" r="1"/>
+                        {/* Lignes de connexion */}
+                        <line x1="8" y1="4" x2="4" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        <line x1="8" y1="4" x2="12" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        <line x1="4" y1="8" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        <line x1="12" y1="8" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        <line x1="8" y1="4" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                        <line x1="4" y1="8" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                        <line x1="12" y1="8" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                        <line x1="8" y1="12" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
               </div>
               <span className="text-xl font-bold text-foreground">NOESIS AI</span>
             </div>
