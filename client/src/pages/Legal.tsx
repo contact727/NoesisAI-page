@@ -24,8 +24,8 @@ export default function Legal() {
               <div className="space-y-4 text-muted-foreground">
                 <p><strong>Raison sociale :</strong> NOESIS AI</p>
                 <p><strong>Adresse :</strong> Paris, France</p>
-                <p><strong>Email :</strong> contact@noesisiai.pro</p>
-                <p><strong>Téléphone :</strong> +33 6 89 39 56 23</p>
+                <p><strong>Email :</strong> <a href="mailto:contact@noesisiai.pro" aria-label="Envoyer un email à contact@noesisiai.pro" className="text-primary hover:text-primary/80 focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded transition-colors" data-testid="link-legal-email">contact@noesisiai.pro</a></p>
+                <p><strong>Téléphone :</strong> <a href="tel:+33689395623" aria-label="Appeler le +33 6 89 39 56 23" className="text-primary hover:text-primary/80 focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded transition-colors" data-testid="link-legal-phone">+33 6 89 39 56 23</a></p>
               </div>
             </section>
 

@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BookingCalendly from '@/components/BookingCalendly';
+import ContactItem from '@/components/ContactItem';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 export default function Contact() {
@@ -49,45 +50,33 @@ export default function Contact() {
                   </div>
 
                   <div className="space-y-6">
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                        <Mail className="h-5 w-5 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-foreground">Email</div>
-                        <div className="text-muted-foreground">contact@noesisiai.pro</div>
-                      </div>
-                    </div>
+                    <ContactItem
+                      icon={Mail}
+                      label="Email"
+                      value="contact@noesisiai.pro"
+                      href="mailto:contact@noesisiai.pro"
+                      ariaLabel="Envoyer un email à contact@noesisiai.pro"
+                    />
                     
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                        <Phone className="h-5 w-5 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-foreground">Téléphone</div>
-                        <div className="text-muted-foreground">+33 6 89 39 56 23</div>
-                      </div>
-                    </div>
+                    <ContactItem
+                      icon={Phone}
+                      label="Téléphone"
+                      value="+33 6 89 39 56 23"
+                      href="tel:+33689395623"
+                      ariaLabel="Appeler le +33 6 89 39 56 23"
+                    />
                     
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                        <Clock className="h-5 w-5 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-foreground">Horaires</div>
-                        <div className="text-muted-foreground">Lun-Ven 9h-18h</div>
-                      </div>
-                    </div>
+                    <ContactItem
+                      icon={Clock}
+                      label="Horaires"
+                      value="Lun-Ven 9h-18h"
+                    />
                     
-                    <div className="flex items-center gap-4">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                        <MapPin className="h-5 w-5 text-primary-foreground" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-foreground">Localisation</div>
-                        <div className="text-muted-foreground">Paris, France</div>
-                      </div>
-                    </div>
+                    <ContactItem
+                      icon={MapPin}
+                      label="Localisation"
+                      value="Paris, France"
+                    />
                   </div>
 
                   <Card>

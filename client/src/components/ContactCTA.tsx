@@ -1,41 +1,34 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Link, useLocation } from 'wouter';
+import { useLocation } from 'wouter';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
-import { useActions } from '@/hooks/useActions';
 
 const contactInfo = [
   {
     icon: Phone,
     title: 'Téléphone',
     value: '+33 6 89 39 56 23',
-    action: 'phone'
+    href: 'tel:+33689395623',
+    ariaLabel: 'Appeler le +33 6 89 39 56 23'
   },
   {
     icon: Mail,
     title: 'Email',
     value: 'contact@noesisiai.pro',
-    action: 'email'
+    href: 'mailto:contact@noesisiai.pro',
+    ariaLabel: 'Envoyer un email à contact@noesisiai.pro'
   },
   {
     icon: MapPin,
     title: 'Adresse',
     value: 'Paris, France',
-    action: null
+    href: null,
+    ariaLabel: null
   },
 ];
 
 export default function ContactCTA() {
-  const { openMailto } = useActions();
   const [, setLocation] = useLocation();
-  
-  const handleContactClick = (info: any) => {
-    if (info.action === 'email') {
-      openMailto();
-    } else if (info.action === 'phone') {
-      window.location.href = `tel:+33689395623`;
-    }
-  };
   
   return (
     <div className="py-16 sm:py-20">
@@ -59,14 +52,15 @@ export default function ContactCTA() {
                 <h3 className="font-semibold text-foreground mb-2" data-testid={`text-contact-title-${index}`}>
                   {info.title}
                 </h3>
-                {info.action ? (
-                  <button 
-                    onClick={() => handleContactClick(info)}
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                    data-testid={`button-contact-${index}`}
+                {info.href ? (
+                  <a
+                    href={info.href}
+                    aria-label={info.ariaLabel || `${info.title}: ${info.value}`}
+                    className="text-muted-foreground hover:text-primary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md transition-colors duration-200 p-3 -m-3"
+                    data-testid={`link-contact-${index}`}
                   >
                     {info.value}
-                  </button>
+                  </a>
                 ) : (
                   <p className="text-muted-foreground" data-testid={`text-contact-value-${index}`}>
                     {info.value}

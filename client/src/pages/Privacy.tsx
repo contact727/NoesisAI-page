@@ -92,8 +92,8 @@ export default function Privacy() {
               <div className="space-y-4 text-muted-foreground">
                 <p>Si vous avez des questions concernant cette politique de confidentialité, vous pouvez nous contacter :</p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Par email : contact@noesisiai.pro</li>
-                  <li>Par téléphone : +33 6 89 39 56 23</li>
+                  <li>Par email : <a href="mailto:contact@noesisiai.pro" aria-label="Envoyer un email à contact@noesisiai.pro" className="text-primary hover:text-primary/80 focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded transition-colors" data-testid="link-privacy-email">contact@noesisiai.pro</a></li>
+                  <li>Par téléphone : <a href="tel:+33689395623" aria-label="Appeler le +33 6 89 39 56 23" className="text-primary hover:text-primary/80 focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded transition-colors" data-testid="link-privacy-phone">+33 6 89 39 56 23</a></li>
                 </ul>
               </div>
             </section>
