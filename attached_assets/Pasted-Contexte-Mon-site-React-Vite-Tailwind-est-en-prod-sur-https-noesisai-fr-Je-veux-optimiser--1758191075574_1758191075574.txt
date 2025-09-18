@@ -1,0 +1,151 @@
+Contexte
+Mon site (React + Vite + Tailwind) est en prod sur https://noesisai.fr. 
+Je veux optimiser l’apparence dans Google : favicon/logo affiché, titre + description propres, données structurées, sitemap et robots, 
+et avoir des titles/descriptions par page (Home, Services, FAQ, Contact).
+Fais les modifications suivantes de façon PROPRE et idempotente, sans casser mon code existant.
+
+TÂCHES À FAIRE
+
+1) HEAD GLOBAL (index.html)
+- Ouvre le fichier `index.html` (à la racine du projet ou dans /client si c’est là que Vite l’a placé).
+- Dans <head>, ajoute/ajuste exactement ces balises (sans dupliquer si déjà présentes) :
+
+<title>NOESIS AI – Agence d’automatisation IA (n8n, Make, LLM)</title>
+<meta name="description" content="Automatisations IA sur-mesure (n8n, Make, LLM, agents vocaux) pour éliminer les tâches répétitives, gagner des heures et accélérer votre croissance. Audit gratuit.">
+<link rel="canonical" href="https://noesisai.fr/">
+
+<!-- Favicon & manifest -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#111827">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="NOESIS AI – Agence d’automatisation IA">
+<meta property="og:description" content="Automatisations IA (n8n, Make, LLM). Gagnez des heures, boostez votre ROI. Audit gratuit.">
+<meta property="og:url" content="https://noesisai.fr/">
+<meta property="og:image" content="https://noesisai.fr/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NOESIS AI – Agence d’automatisation IA">
+<meta name="twitter:description" content="Automatisations IA sur-mesure. Audit gratuit.">
+<meta name="twitter:image" content="https://noesisai.fr/icon-512.png">
+
+<!-- JSON-LD Organization (logo officiel + profils) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "NOESIS AI",
+  "url": "https://noesisai.fr/",
+  "logo": "https://noesisai.fr/icon-512.png",
+  "sameAs": [
+    "https://www.linkedin.com/in/ugo-sartini-04a14620a/",
+    "https://www.instagram.com/ugoia2025/"
+  ]
+}
+</script>
+
+2) FICHIERS STATIQUES /public
+- Crée le dossier `/public` s’il n’existe pas et ajoute (ou remplace) ces fichiers :
+  - /public/favicon.ico          (32x32)
+  - /public/favicon-32.png       (32x32)
+  - /public/favicon-16.png       (16x16)
+  - /public/apple-touch-icon.png (180x180)
+  - /public/icon-192.png         (192x192, PNG, fond transparent si possible)
+  - /public/icon-512.png         (512x512, PNG, fond transparent si possible)
+  → Si des icônes manquent, génère-les à partir du logo (utiliser la meilleure qualité dispo).
+
+- Crée /public/site.webmanifest avec ce contenu exact :
+{
+  "name": "NOESIS AI",
+  "short_name": "NOESIS AI",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "theme_color": "#111827",
+  "background_color": "#0B0B0C",
+  "display": "standalone",
+  "start_url": "/"
+}
+
+- Crée /public/robots.txt :
+User-agent: *
+Allow: /
+Sitemap: https://noesisai.fr/sitemap.xml
+
+- Crée /public/sitemap.xml (version simple pour SPA) :
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://noesisai.fr/</loc><priority>1.0</priority></url>
+  <url><loc>https://noesisai.fr/services</loc><priority>0.8</priority></url>
+  <url><loc>https://noesisai.fr/faq</loc><priority>0.6</priority></url>
+  <url><loc>https://noesisai.fr/contact</loc><priority>0.6</priority></url>
+</urlset>
+
+3) TITRES & DESCRIPTIONS PAR PAGE (React)
+- Installe react-helmet-async si absent : npm i react-helmet-async
+- Dans l’entrée de l’app (main.tsx ou main.jsx), entoure <App /> avec <HelmetProvider>.
+Exemple :
+import { HelmetProvider } from "react-helmet-async";
+createRoot(document.getElementById("root")!).render(
+  <HelmetProvider>
+    <App />
+  </HelmetProvider>
+);
+
+- Sur chaque page, ajoute des metas spécifiques via <Helmet> :
+A) Home (si page Home.tsx existe, sinon laisse le head global) :
+  <Helmet>
+    <title>NOESIS AI – Agence d’automatisation IA (n8n, Make, LLM)</title>
+    <meta name="description" content="Automatisations IA sur-mesure (n8n, Make, LLM, agents vocaux). Audit gratuit." />
+    <link rel="canonical" href="https://noesisai.fr/" />
+  </Helmet>
+
+B) Services (src/pages/Services.tsx ou équivalent) :
+  <Helmet>
+    <title>Services d’automatisation IA – NOESIS AI</title>
+    <meta name="description" content="Audit & roadmap, intégration n8n/Make/APIs, agents IA (texte/voix), optimisation continue. RGPD & sécurité." />
+    <link rel="canonical" href="https://noesisai.fr/services" />
+  </Helmet>
+
+C) FAQ :
+  <Helmet>
+    <title>FAQ – NOESIS AI</title>
+    <meta name="description" content="Réponses aux questions sur l’automatisation IA, les intégrations (n8n/Make), la sécurité et les délais." />
+    <link rel="canonical" href="https://noesisai.fr/faq" />
+  </Helmet>
+
+D) Contact :
+  <Helmet>
+    <title>Contact – NOESIS AI</title>
+    <meta name="description" content="Parlons de vos automatisations IA. Réponse en 24–48h. Audit gratuit sur demande." />
+    <link rel="canonical" href="https://noesisai.fr/contact" />
+  </Helmet>
+
+→ Si les composants/pages n’existent pas avec ces noms, crée-les ou adapte les chemins sans casser la navigation. 
+→ Ne duplique pas les metas : privilégie 1 set clair par page.
+
+4) CONTRÔLES/QUALITÉ
+- S’assurer que /robots.txt et /sitemap.xml sont bien servis en prod.
+- Vérifier que toutes les URLs d’icônes renvoient bien un fichier (ouvrir dans un onglet).
+- Garder un code propre et éviter les metas en double.
+
+5) BUILD & DEPLOY
+- Exécuter : npm run build
+- Déployer (même process que d’habitude dans Replit Deploy) pour que noesisai.fr serve la nouvelle version.
+
+6) MINI GUIDE (à afficher en sortie dans la console)
+- Après déploiement, vérifier :
+  - https://noesisai.fr (View Source → balises <title>, <meta name="description">, OG/Twitter)
+  - https://noesisai.fr/favicon-32.png, /icon-512.png, /site.webmanifest
+  - https://noesisai.fr/robots.txt
+  - https://noesisai.fr/sitemap.xml
+- Étapes Google Search Console (je possède déjà la vérification DNS) :
+  1) Ouvrir Search Console > propriété noesisai.fr
+  2) “Inspection de l’URL” → coller https://noesisai.fr/ → Demander une indexation
+  3) Menu “Sitemaps” → soumettre https://noesisai.fr/sitemap.xml
+  4) Attendre l’indexation (favicon et snippet peuvent prendre quelques jours)
