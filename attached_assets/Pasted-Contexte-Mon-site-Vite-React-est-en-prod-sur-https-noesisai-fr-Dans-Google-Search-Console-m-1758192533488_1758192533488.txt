@@ -1,0 +1,66 @@
+Contexte
+Mon site (Vite + React) est en prod sur https://noesisai.fr. 
+Dans Google Search Console, mon sitemap retourne l’erreur : “Le sitemap est un fichier HTML”.
+Je veux un vrai fichier XML brut servi depuis /public, et un robots.txt qui le référence.
+
+Objectif
+1) Servir un sitemap **XML pur** à l’URL https://noesisai.fr/sitemap.xml
+2) Mettre à jour /public/robots.txt pour référencer ce sitemap
+3) S’assurer qu’aucun router React ou middleware ne “rend” le sitemap en HTML
+4) Me donner les étapes de redeploy + re-soumission Search Console
+
+À faire (idempotent, sans casser le reste)
+
+A) Vérifier l’arborescence
+- Créer le dossier /public s’il n’existe pas.
+- S’assurer qu’il n’existe PAS de composant React, route (React Router) ou handler qui répond sur /sitemap.xml (ex: /src/pages/Sitemap.tsx, route catch-all, etc.). 
+  → Si présent, supprimer cette route/ce composant et documenter dans le commit message.
+
+B) Créer/Remplacer /public/sitemap.xml (XML BRUT, pas de HTML)
+Contenu EXACT :
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://noesisai.fr/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://noesisai.fr/services</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://noesisai.fr/faq</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://noesisai.fr/contact</loc>
+    <priority>0.6</priority>
+  </url>
+</urlset>
+
+C) Créer/Mettre à jour /public/robots.txt
+Contenu EXACT :
+User-agent: *
+Allow: /
+Sitemap: https://noesisai.fr/sitemap.xml
+
+D) (Si j’ai un serveur Node/Express dans le projet)
+- S’assurer que `app.use(express.static('public'))` sert bien les fichiers statiques.
+- Ne pas ajouter de handler spécifique pour /sitemap.xml : laisser le fichier statique répondre, avec le bon content-type (Vite/serveur statique le fait déjà correctement).
+
+E) Contrôles locaux
+- Lancer le projet en dev/build et vérifier que:
+  - http://localhost:5173/sitemap.xml ou l’URL d’aperçu renvoie bien **le XML brut** (pas de HTML).
+  - http://localhost:5173/robots.txt renvoie bien le contenu ci-dessus.
+
+F) Build & Deploy
+- Exécuter `npm run build`.
+- Déployer comme d’habitude (Replit Deploy).
+- Vérifier en prod :
+  - https://noesisai.fr/sitemap.xml → XML brut
+  - https://noesisai.fr/robots.txt → OK
+
+G) Note finale (à afficher dans la console)
+1) Dans Google Search Console > Sitemaps : soumettre à nouveau `https://noesisai.fr/sitemap.xml`.
+2) Dans “Inspection d’URL”, coller `https://noesisai.fr/` puis cliquer “Demander une indexation”.
+3) Attendre le recrawl (24h–quelques jours).
