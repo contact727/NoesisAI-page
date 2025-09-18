@@ -43,7 +43,7 @@ export default function Hero() {
           
           <div className="flex items-center justify-center gap-x-6 mb-16">
             <Button asChild size="lg" className="px-8 py-4 text-lg" data-testid="button-primary-cta">
-              <Link href="/contact">
+              <Link href="/services">
                 Découvrir nos solutions
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
