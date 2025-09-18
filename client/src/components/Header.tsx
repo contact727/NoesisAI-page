@@ -24,31 +24,22 @@ export default function Header() {
             <span className="sr-only">NOESIS AI</span>
             <div className="flex items-center gap-3">
               <div className="relative h-10 w-10">
-                {/* Cercle extérieur */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-purple-600 p-0.5">
-                  {/* Cercle intérieur */}
-                  <div className="h-full w-full rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                    {/* Motif réseau central */}
-                    <svg width="16" height="16" viewBox="0 0 16 16" className="text-white">
-                      <g fill="currentColor">
-                        {/* Points du réseau */}
-                        <circle cx="8" cy="4" r="1.5"/>
-                        <circle cx="4" cy="8" r="1.5"/>
-                        <circle cx="12" cy="8" r="1.5"/>
-                        <circle cx="8" cy="12" r="1.5"/>
-                        <circle cx="8" cy="8" r="1"/>
-                        {/* Lignes de connexion */}
-                        <line x1="8" y1="4" x2="4" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        <line x1="8" y1="4" x2="12" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        <line x1="4" y1="8" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        <line x1="12" y1="8" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        <line x1="8" y1="4" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                        <line x1="4" y1="8" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                        <line x1="12" y1="8" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                        <line x1="8" y1="12" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                      </g>
-                    </svg>
-                  </div>
+                {/* Grand cercle extérieur */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 opacity-30"></div>
+                {/* Cercle intérieur principal */}
+                <div className="absolute inset-1 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                  {/* Motif losange central */}
+                  <svg width="12" height="12" viewBox="0 0 12 12" className="text-white">
+                    <g stroke="currentColor" fill="currentColor" strokeWidth="1">
+                      {/* Losange central avec 4 points */}
+                      <circle cx="6" cy="3" r="1.2"/>
+                      <circle cx="9" cy="6" r="1.2"/>
+                      <circle cx="6" cy="9" r="1.2"/>
+                      <circle cx="3" cy="6" r="1.2"/>
+                      {/* Connexions entre les points */}
+                      <path d="M6,3 L9,6 L6,9 L3,6 Z" fill="none" strokeWidth="1.2" strokeLinejoin="round"/>
+                    </g>
+                  </svg>
                 </div>
               </div>
               <span className="text-xl font-bold text-foreground">NOESIS AI</span>
@@ -116,31 +107,22 @@ export default function Header() {
                 <span className="sr-only">NOESIS AI</span>
                 <div className="flex items-center gap-3">
                   <div className="relative h-10 w-10">
-                    {/* Cercle extérieur */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-purple-600 p-0.5">
-                      {/* Cercle intérieur */}
-                      <div className="h-full w-full rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                        {/* Motif réseau central */}
-                        <svg width="16" height="16" viewBox="0 0 16 16" className="text-white">
-                          <g fill="currentColor">
-                            {/* Points du réseau */}
-                            <circle cx="8" cy="4" r="1.5"/>
-                            <circle cx="4" cy="8" r="1.5"/>
-                            <circle cx="12" cy="8" r="1.5"/>
-                            <circle cx="8" cy="12" r="1.5"/>
-                            <circle cx="8" cy="8" r="1"/>
-                            {/* Lignes de connexion */}
-                            <line x1="8" y1="4" x2="4" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                            <line x1="8" y1="4" x2="12" y2="8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                            <line x1="4" y1="8" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                            <line x1="12" y1="8" x2="8" y2="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                            <line x1="8" y1="4" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                            <line x1="4" y1="8" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                            <line x1="12" y1="8" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                            <line x1="8" y1="12" x2="8" y2="8" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                          </g>
-                        </svg>
-                      </div>
+                    {/* Grand cercle extérieur */}
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 opacity-30"></div>
+                    {/* Cercle intérieur principal */}
+                    <div className="absolute inset-1 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                      {/* Motif losange central */}
+                      <svg width="12" height="12" viewBox="0 0 12 12" className="text-white">
+                        <g stroke="currentColor" fill="currentColor" strokeWidth="1">
+                          {/* Losange central avec 4 points */}
+                          <circle cx="6" cy="3" r="1.2"/>
+                          <circle cx="9" cy="6" r="1.2"/>
+                          <circle cx="6" cy="9" r="1.2"/>
+                          <circle cx="3" cy="6" r="1.2"/>
+                          {/* Connexions entre les points */}
+                          <path d="M6,3 L9,6 L6,9 L3,6 Z" fill="none" strokeWidth="1.2" strokeLinejoin="round"/>
+                        </g>
+                      </svg>
                     </div>
                   </div>
                   <span className="text-xl font-bold text-foreground">NOESIS AI</span>
