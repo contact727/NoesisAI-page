@@ -36,11 +36,12 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-4">
-            <img
-              className="h-10 w-auto"
-              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758179813538.png"
-              alt="NOESIS AI"
-            />
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="h-4 w-4 border-2 border-white rounded-full"></div>
+              </div>
+              <span className="text-xl font-bold text-foreground">NOESIS AI</span>
+            </div>
             <p className="text-sm leading-6 text-muted-foreground max-w-md" data-testid="text-footer-description">
               NOESIS AI conçoit et intègre des automatisations sur-mesure pour éliminer les tâches répétitives et booster votre croissance.
             </p>

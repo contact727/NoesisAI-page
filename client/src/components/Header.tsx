@@ -22,11 +22,12 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5" data-testid="link-logo">
             <span className="sr-only">NOESIS AI</span>
-            <img
-              className="h-10 w-auto"
-              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758179813538.png"
-              alt="NOESIS AI"
-            />
+            <div className="flex items-center gap-2">
+              <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="h-4 w-4 border-2 border-white rounded-full"></div>
+              </div>
+              <span className="text-xl font-bold text-foreground">NOESIS AI</span>
+            </div>
           </Link>
         </div>
         
@@ -88,11 +89,12 @@ export default function Header() {
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5" data-testid="link-logo-mobile">
                 <span className="sr-only">NOESIS AI</span>
-                <img
-                  className="h-10 w-auto"
-                  src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758179813538.png"
-                  alt="NOESIS AI"
-                />
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                    <div className="h-4 w-4 border-2 border-white rounded-full"></div>
+                  </div>
+                  <span className="text-xl font-bold text-foreground">NOESIS AI</span>
+                </div>
               </Link>
               <Button
                 variant="ghost"
