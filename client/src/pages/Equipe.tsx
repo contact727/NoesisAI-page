@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import { Linkedin } from 'lucide-react';
 import { Link } from 'wouter';
 import ugoPhoto from '@assets/ugo-sartini.png';
-import karimPhoto from '@assets/karim-kraiouh.png';
+import karimPhoto from '@assets/karim-kraiouh-new.jpeg';
 
 interface TeamMember {
   name: string;
