@@ -1,0 +1,91 @@
+Contexte
+Je veux remplacer le formulaire “Demander un audit gratuit” par une **prise de rendez-vous Calendly**.
+Mon lien Calendly est : https://calendly.com/contact-noesisiai/30min
+Tech: React + Vite + Tailwind. Le composant actuel contient des champs: fullName (ou firstName/lastName), email, company, industry, message + consent checkbox.
+
+Objectifs
+1) Ajouter l’intégration Calendly officielle (script embed) côté front.
+2) Conserver les champs pour pré-remplir le booking Calendly (name/email + questions custom).
+3) Au clic sur le bouton, **ouvrir un popup Calendly** pré-rempli.
+4) (Option) proposer aussi un **embed inline** sous le formulaire (toggle facile).
+5) Afficher un toast/état “Rendez-vous réservé” après l’événement Calendly.
+6) Laisser un lien fallback direct vers Calendly si le script ne charge pas.
+
+Tâches concrètes
+
+A) Script Calendly (global)
+- Dans index.html (head) ou via lazy load dans le composant, ajouter :
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+- Protéger les appels: attendre window.Calendly avant d’init popup (retry simple).
+
+B) Composant React “BookingCalendly”
+- Props: url (par défaut "https://calendly.com/contact-noesisiai/30min"), mode: 'popup' | 'inline' (par défaut 'popup').
+- Champs contrôlés: name, email, company, industry, message, consent.
+- Bouton principal: “Prendre rendez-vous”.
+- Au submit/clic:
+  - Vérifier consent + name + email.
+  - Construire une URL Calendly avec **prefill**:
+    - name = valeurs du champ (fullName ou firstName + lastName)
+    - email = email
+    - customAnswers pour company / industry / message:
+      → utiliser query params “a1”, “a2”, “a3” (Calendly lit up to a10 dans “Invitee Questions” si elles existent dans l’événement).
+      Exemple:
+      const url = new URL("https://calendly.com/contact-noesisiai/30min");
+      url.searchParams.set("name", fullName);
+      url.searchParams.set("email", email);
+      url.searchParams.set("a1", company || "");
+      url.searchParams.set("a2", industry || "");
+      url.searchParams.set("a3", message || "");
+      // Ajouter source
+      url.searchParams.set("utm_source", "noesisai.fr");
+      url.searchParams.set("utm_medium", "site");
+      url.searchParams.set("utm_campaign", "booking");
+  - Si mode === 'popup': 
+      window.Calendly.initPopupWidget({ url: url.toString() });
+      return false; // prevent default
+  - Si mode === 'inline':
+      rendre un <div id="calendly-inline-widget" className="h-[720px] w-full rounded-xl" />
+      puis Calendly.initInlineWidget({ url: url.toString(), parentElement: document.getElementById('calendly-inline-widget') })
+
+- Écouter l’événement postMessage de Calendly pour détecter la réussite:
+  window.addEventListener("message", (e) => {
+    if (e.data?.event && e.data.event.indexOf("calendly.event_scheduled") >= 0) {
+      // Afficher toast “Merci, rendez-vous confirmé !”
+      // Option: remplacer le formulaire par un état de confirmation + bouton “Ajouter au calendrier”
+    }
+  });
+
+- Lien fallback:
+  <a href="https://calendly.com/contact-noesisiai/30min" target="_blank" rel="noopener"
+     className="text-sm underline opacity-70">Ouvrir Calendly dans un nouvel onglet</a>
+
+C) UI/UX
+- Conserver la même carte et titres (“Prendre un rendez-vous”).
+- Conserver les champs (name, email, company, industry, message) mais **le bouton** devient:
+  label: “Prendre rendez-vous”
+  icon: un calendrier (lucide-react Calendar).
+- Désactiver le bouton si consent non coché.
+- Spinner pendant le chargement du script Calendly.
+- Classes Tailwind cohérentes (mêmes inputs/bouton qu’actuellement).
+
+D) (Option) Tracking simple
+- Appeler window.plausible?.('booking_start') au clic.
+- Appeler window.plausible?.('booking_confirmed') sur calendly.event_scheduled.
+
+E) Nettoyage & Accessibilité
+- aria-labels sur le bouton et les inputs.
+- Gérer focus/esc quand popup se ferme (facultatif, Calendly gère le focus).
+
+F) README courte (à afficher en console ou md):
+- Pour préremplir des “Invitee Questions” côté Calendly, crée des questions dans l’événement (company, industry, message) puis Calendly remplira avec a1/a2/a3 s’ils existent dans l’URL.
+- Pour activer l’embed inline, passer prop mode="inline".
+- Le lien fallback fonctionne sans JS.
+
+Livrable attendu
+- Nouveau composant BookingCalendly.tsx (ou remplacement du composant de formulaire existant).
+- index.html mis à jour avec les tags Calendly.
+- Intégration sur la page Contact/CTA principale en mode 'popup'.
+- Tests: 
+  1) remplir name+email+consent → clic “Prendre rendez-vous” → popup Calendly s’ouvre avec name/email préremplis.
+  2) réserver un créneau → toast de confirmation s’affiche.
