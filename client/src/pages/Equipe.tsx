@@ -5,7 +5,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Linkedin } from 'lucide-react';
 import { Link } from 'wouter';
-// import ugoPhoto from '@assets/ugo-sartini.png'; // Image à corriger
+import ugoPhoto from '@assets/ugo-sartini.png';
+import karimPhoto from '@assets/karim-kraiouh.png';
 
 interface TeamMember {
   name: string;
@@ -19,14 +20,14 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Ugo Sartini',
     role: 'Co founder',
-    photo: undefined, // Image à ajouter
+    photo: ugoPhoto,
     linkedin: 'https://www.linkedin.com/in/ugo-sartini-04a14620a/',
     initials: 'US'
   },
   {
     name: 'Karim Kraiouh',
     role: 'Co founder',
-    photo: undefined, // Photo à ajouter
+    photo: karimPhoto,
     linkedin: 'https://www.linkedin.com/in/karim-k-702890198/',
     initials: 'KK'
   }
