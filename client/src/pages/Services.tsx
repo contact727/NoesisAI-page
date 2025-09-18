@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -87,6 +88,12 @@ const benefits = [
 export default function Services() {
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Services d'automatisation IA – NOESIS AI</title>
+        <meta name="description" content="Audit & roadmap, intégration n8n/Make/APIs, agents IA (texte/voix), optimisation continue. RGPD & sécurité." />
+        <link rel="canonical" href="https://noesisai.fr/services" />
+      </Helmet>
+      
       <Header />
       
       <main>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -103,6 +104,12 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen">
+      <Helmet>
+        <title>Contact – NOESIS AI</title>
+        <meta name="description" content="Parlons de vos automatisations IA. Réponse en 24–48h. Audit gratuit sur demande." />
+        <link rel="canonical" href="https://noesisai.fr/contact" />
+      </Helmet>
+      
       <Header />
       
       <main>
