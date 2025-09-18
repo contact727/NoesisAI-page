@@ -23,8 +23,8 @@ export default function Header() {
           <Link href="/" className="-m-1.5 p-1.5" data-testid="link-logo">
             <span className="sr-only">NOESIS AI</span>
             <img
-              className="h-8 w-auto"
-              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758102393338.png"
+              className="h-10 w-auto"
+              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758179813538.png"
               alt="NOESIS AI"
             />
           </Link>
@@ -89,8 +89,8 @@ export default function Header() {
               <Link href="/" className="-m-1.5 p-1.5" data-testid="link-logo-mobile">
                 <span className="sr-only">NOESIS AI</span>
                 <img
-                  className="h-8 w-auto"
-                  src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758102393338.png"
+                  className="h-10 w-auto"
+                  src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758179813538.png"
                   alt="NOESIS AI"
                 />
               </Link>

@@ -37,8 +37,8 @@ export default function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-4">
             <img
-              className="h-8 w-auto"
-              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758102393338.png"
+              className="h-10 w-auto"
+              src="@assets/Capture d'écran 2025-09-17 à 11.32.49_1758179813538.png"
               alt="NOESIS AI"
             />
             <p className="text-sm leading-6 text-muted-foreground max-w-md" data-testid="text-footer-description">
