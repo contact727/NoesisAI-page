@@ -148,7 +148,7 @@ export default function Services() {
         </div>
 
         {/* Benefits Section */}
-        <div className="bg-muted/20 py-24 sm:py-32">
+        <div className="bg-gradient-to-b from-background via-primary/5 to-primary/10 py-24 sm:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl" data-testid="text-benefits-title">
