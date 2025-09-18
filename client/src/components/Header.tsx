@@ -124,7 +124,7 @@ export default function Header() {
         </div>
         
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Button onClick={() => setLocation('/contact')} data-testid="button-cta-header">
+          <Button onClick={() => window.open('https://calendly.com/contact-noesisiai/30min', '_blank')} data-testid="button-cta-header">
             Demander un audit gratuit
           </Button>
         </div>
@@ -226,7 +226,7 @@ export default function Header() {
                 <Button 
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    setLocation('/contact');
+                    window.open('https://calendly.com/contact-noesisiai/30min', '_blank');
                   }} 
                   className="w-full py-4 text-lg font-semibold" 
                   data-testid="button-cta-mobile"

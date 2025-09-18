@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Link } from 'wouter';
 import { Search, Cog, Bot, Headphones, Shield, Zap, Clock, TrendingUp } from 'lucide-react';
 
 const services = [
@@ -192,10 +191,8 @@ export default function Services() {
                 Commencez par un audit gratuit de vos workflows actuels.
               </p>
               <div className="mt-10">
-                <Button asChild size="lg" data-testid="button-services-cta">
-                  <Link href="/contact">
-                    Demander un audit gratuit
-                  </Link>
+                <Button onClick={() => window.open('https://calendly.com/contact-noesisiai/30min', '_blank')} size="lg" data-testid="button-services-cta">
+                  Demander un audit gratuit
                 </Button>
               </div>
             </div>
@@ -205,10 +202,8 @@ export default function Services() {
 
       {/* Sticky CTA */}
       <div className="fixed bottom-4 right-4 z-40">
-        <Button asChild data-testid="button-sticky-cta">
-          <Link href="/contact">
-            Demander un audit
-          </Link>
+        <Button onClick={() => window.open('https://calendly.com/contact-noesisiai/30min', '_blank')} data-testid="button-sticky-cta">
+          Demander un audit
         </Button>
       </div>
       

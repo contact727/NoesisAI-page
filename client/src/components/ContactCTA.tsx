@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useLocation } from 'wouter';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 
 const contactInfo = [
@@ -28,7 +27,6 @@ const contactInfo = [
 ];
 
 export default function ContactCTA() {
-  const [, setLocation] = useLocation();
   
   return (
     <div className="py-16 sm:py-20">
@@ -88,7 +86,7 @@ export default function ContactCTA() {
         </div>
 
         <div className="text-center">
-          <Button onClick={() => setLocation('/contact')} size="lg" className="px-8 py-4 text-lg" data-testid="button-contact-cta">
+          <Button onClick={() => window.open('https://calendly.com/contact-noesisiai/30min', '_blank')} size="lg" className="px-8 py-4 text-lg" data-testid="button-contact-cta">
             <MessageSquare className="mr-2 h-5 w-5" />
             Demander un audit gratuit
           </Button>
