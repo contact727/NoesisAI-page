@@ -6,8 +6,6 @@ const navigation = {
   main: [
     { name: 'Accueil', href: '/' },
     { name: 'Services', href: '/services' },
-    { name: 'Études de cas', href: '/cases' },
-    { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ],
   legal: [
