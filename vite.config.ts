@@ -18,14 +18,16 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
+      // CORRECTION ICI : on enlève "client" car src est maintenant à la racine
+      "@": path.resolve(import.meta.dirname, "src"),
       "@shared": path.resolve(import.meta.dirname, "shared"),
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
-  root: path.resolve(import.meta.dirname, "client"),
+  // CORRECTION MAJEURE : On supprime la ligne "root" pour utiliser la racine par défaut
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    // On simplifie le dossier de sortie pour Vercel
+    outDir: "dist",
     emptyOutDir: true,
   },
   server: {
