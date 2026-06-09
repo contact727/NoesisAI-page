@@ -1,63 +1,35 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { HelmetProvider } from "react-helmet-async";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { CalendlyProvider } from "@/contexts/CalendlyContext";
-import CalendlyModal from "@/components/CalendlyModal";
-import { useCalendlyContext } from "@/contexts/CalendlyContext";
-import Home from "@/pages/Home";
-import Services from "@/pages/Services";
-import Cases from "@/pages/Cases";
-import Contact from "@/pages/Contact";
-import Equipe from "@/pages/Equipe";
-import FAQ from "@/pages/FAQ";
-import Legal from "@/pages/Legal";
-import Privacy from "@/pages/Privacy";
-import NotFound from "@/pages/NotFound";
+import { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { Navbar } from "./components/Navbar";
+import { Footer } from "./components/Footer";
+import { Home } from "./pages/Home";
+import { MentionsLegales } from "./pages/MentionsLegales";
+import { Confidentialite } from "./pages/Confidentialite";
+import { Cgu } from "./pages/Cgu";
+import { NotFound } from "./pages/NotFound";
 
-function Router() {
-  return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/services" component={Services} />
-      <Route path="/cases" component={Cases} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/equipe" component={Equipe} />
-      <Route path="/faq" component={FAQ} />
-      <Route path="/legal" component={Legal} />
-      <Route path="/privacy" component={Privacy} />
-      {/* Fallback to 404 */}
-      <Route component={NotFound} />
-    </Switch>
-  );
+/** Remonte en haut à chaque changement de route (sauf ancres #). */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
 }
 
-function AppContent() {
-  const { isCalendlyOpen, closeCalendlyModal } = useCalendlyContext();
-  
+export default function App() {
   return (
     <>
-      <Toaster />
-      <Router />
-      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendlyModal} />
+      <ScrollToTop />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/mentions-legales" element={<MentionsLegales />} />
+        <Route path="/confidentialite" element={<Confidentialite />} />
+        <Route path="/cgu" element={<Cgu />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
     </>
   );
 }
-
-function App() {
-  return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <CalendlyProvider>
-            <AppContent />
-          </CalendlyProvider>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
-  );
-}
-
-export default App;

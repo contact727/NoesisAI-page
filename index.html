@@ -2,71 +2,99 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Meta Pixel Code -->
     <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1469298988158446');
-    fbq('track', 'PageView');
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+      fbq("init", "1469298988158446");
+      fbq("track", "PageView");
     </script>
     <!-- End Meta Pixel Code -->
 
-    <title>NOESIS AI – Agence d'automatisation IA (n8n, Make, LLM)</title>
-    <meta name="description" content="Automatisations IA sur-mesure (n8n, Make, LLM, agents vocaux) pour éliminer les tâches répétitives, gagner des heures et accélérer votre croissance. Audit gratuit.">
-    <link rel="canonical" href="https://noesisai.fr/">
-    <!-- Favicon & manifest -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-    <link rel="icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#111827">
+    <title>NOESIS.AI – Studio d'ingénierie IA sur-mesure</title>
+    <meta
+      name="description"
+      content="NOESIS.AI conçoit, déploie et opère des agents IA, des automatisations et des produits digitaux sur-mesure pour votre entreprise — de l'audit à la mise en production."
+    />
+    <link rel="canonical" href="https://noesisai.fr/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/logos/noesis-mark.png" />
+    <meta name="theme-color" content="#111827" />
+
     <!-- Open Graph / Twitter -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="NOESIS AI – Agence d'automatisation IA">
-    <meta property="og:description" content="Automatisations IA (n8n, Make, LLM). Gagnez des heures, boostez votre ROI. Audit gratuit.">
-    <meta property="og:url" content="https://noesisai.fr/">
-    <meta property="og:image" content="https://noesisai.fr/icon-512.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="NOESIS AI – Agence d'automatisation IA">
-    <meta name="twitter:description" content="Automatisations IA sur-mesure. Audit gratuit.">
-    <meta name="twitter:image" content="https://noesisai.fr/icon-512.png">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="NOESIS.AI – Studio d'ingénierie IA sur-mesure" />
+    <meta
+      property="og:description"
+      content="Agents IA, automatisations et produits digitaux sur-mesure — de l'audit à la mise en production."
+    />
+    <meta property="og:url" content="https://noesisai.fr/" />
+    <meta property="og:image" content="https://noesisai.fr/logos/noesis-full.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NOESIS.AI – Ingénierie IA sur-mesure" />
+    <meta name="twitter:description" content="Agents IA, automatisations et produits digitaux sur-mesure. Échangez avec un expert." />
+    <meta name="twitter:image" content="https://noesisai.fr/logos/noesis-full.png" />
+
     <!-- JSON-LD Organization -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "NOESIS AI",
-      "url": "https://noesisai.fr/",
-      "logo": "https://noesisai.fr/icon-512.png",
-      "sameAs": [
-        "https://www.linkedin.com/in/ugo-sartini-04a14620a/",
-        "https://www.instagram.com/ugoia2025/"
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "NOESIS AI",
+        "url": "https://noesisai.fr/",
+        "logo": "https://noesisai.fr/icon-512.png",
+        "sameAs": [
+          "https://www.linkedin.com/in/ugo-sartini-04a14620a/",
+          "https://www.instagram.com/ugoia2025/"
+        ]
+      }
     </script>
+
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Plausible Analytics -->
     <script defer data-domain="noesisai.fr" src="https://plausible.io/js/script.js"></script>
-    <!-- Calendly Integration -->
-    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
     <!-- Leadsy AI Tracking -->
-    <script id="vtag-ai-js" async src="https://r2.leadsy.ai/tag.js" data-pid="1atX11afL2XP3sVsZ" data-version="062024"></script>
+    <script
+      id="vtag-ai-js"
+      async
+      src="https://r2.leadsy.ai/tag.js"
+      data-pid="1atX11afL2XP3sVsZ"
+      data-version="062024"
+    ></script>
   </head>
   <body>
-    <!-- Meta Pixel noscript -->
     <noscript>
-      <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=1469298988158446&ev=PageView&noscript=1"/>
+      <img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=1469298988158446&ev=PageView&noscript=1"
+      />
     </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

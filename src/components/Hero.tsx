@@ -1,73 +1,78 @@
-import { Link } from 'wouter';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Button, Chevrons } from "./ui/Button";
+import { HERO, ICLOSED_URL } from "../data/content";
 
-export default function Hero() {
+export function Hero() {
   return (
-    <div className="relative isolate px-6 pt-14 lg:px-8">
-      {/* Background gradient */}
+    <section id="top" className="relative overflow-hidden pt-32 pb-16 sm:pt-40 sm:pb-20">
+      {/* Halo de fond léger */}
       <div
-        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        aria-hidden="true"
-      >
-        <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-br from-primary via-accent to-primary opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-        />
-      </div>
-      
-      <div className="mx-auto max-w-2xl py-20 sm:py-28 lg:py-32">
-        <div className="text-center">
-          <div className="mb-12">
-            <div className="mb-8">
-              <span className="inline-flex items-center gap-x-2 rounded-full bg-primary/10 px-6 py-3 text-sm font-semibold text-primary ring-1 ring-inset ring-primary/20 backdrop-blur-md">
-                🤖 Agence d'automatisation IA
-              </span>
-            </div>
-            
-            <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-7xl mb-6" data-testid="text-hero-title">
-              <div className="mb-2">Automatisez.</div>
-              <div className="mb-2 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                Optimisez.
-              </div>
-              <div>Gagnez du temps.</div>
-            </h1>
-          </div>
-          
-          <p className="text-xl leading-8 text-muted-foreground max-w-3xl mx-auto mb-12" data-testid="text-hero-subtitle">
-            Solutions IA sur mesure pour professionnels
-          </p>
-          
-          <div className="flex items-center justify-center gap-x-6 mb-16">
-            <Button asChild size="lg" className="px-8 py-4 text-lg" data-testid="button-primary-cta">
-              <Link href="/services">
-                Découvrir nos solutions
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -top-40 z-0 mx-auto h-[480px] max-w-4xl rounded-full bg-gradient-to-r from-[#3b82f6]/20 via-[#8b5cf6]/15 to-[#c026d3]/20 blur-3xl"
+      />
+      <div className="container-page relative z-10">
+        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-300 shadow-sm backdrop-blur"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-gradient" />
+            {HERO.badge}
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.05 }}
+            className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl"
+          >
+            Des systèmes d'IA sur-mesure{" "}
+            <span className="text-gradient">qui transforment votre entreprise</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.12 }}
+            className="mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg"
+          >
+            {HERO.subtitle}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.18 }}
+            className="mt-8 flex flex-col gap-3 sm:flex-row"
+          >
+            <Button href={ICLOSED_URL} external size="lg">
+              {HERO.primaryCta} <Chevrons />
             </Button>
-          </div>
-          
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">+40%</div>
-              <div className="text-sm text-muted-foreground">de productivité en moyenne</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-accent mb-2">24/7</div>
-              <div className="text-sm text-muted-foreground">disponibilité garantie</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary mb-2">15h</div>
-              <div className="text-sm text-muted-foreground">économisées par semaine</div>
-            </div>
-          </div>
+            <Button href="#realisations" variant="secondary" size="lg">
+              {HERO.secondaryCta}
+            </Button>
+          </motion.div>
+
+          {/* Stats / preuve sociale */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.24 }}
+            className="mt-12 grid w-full max-w-xl grid-cols-3 divide-x divide-white/10 rounded-3xl border border-white/10 bg-white/5 py-5 shadow-card backdrop-blur"
+          >
+            {HERO.stats.map((s) => (
+              <div key={s.label} className="px-2">
+                <div className="text-lg font-extrabold text-white sm:text-2xl">{s.value}</div>
+                <div className="mt-1 text-[0.7rem] leading-tight text-slate-400 sm:text-xs">
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
-      
-    </div>
+    </section>
   );
 }

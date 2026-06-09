@@ -1,81 +1,55 @@
-import { Button } from '@/components/ui/button';
-import { Link, useLocation } from 'wouter';
-import { BookOpen, CheckCircle } from 'lucide-react';
-import LeadForm from '@/components/LeadForm';
+import { useState } from "react";
+import { Section } from "./ui/Section";
+import { Button, Chevrons } from "./ui/Button";
+import { LEAD_MAGNET, CONTACT_EMAIL } from "../data/content";
 
-export default function LeadMagnet() {
-  const [, setLocation] = useLocation();
+export function LeadMagnet() {
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
 
-  const handleLeadSuccess = () => {
-    console.log('Lead submitted successfully!');
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    // Par défaut : ouverture d'un email pré-rempli. À remplacer par votre
+    // service de capture (n8n / Formspree / Brevo…) quand il sera prêt.
+    const subject = encodeURIComponent("Demande du guide : Les 5 processus à automatiser");
+    const body = encodeURIComponent(`Bonjour,\n\nMerci de m'envoyer le guide gratuit.\nEmail : ${email}`);
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    setSent(true);
   };
 
-  const benefits = [
-    'Les 5 processus les plus rentables à automatiser',
-    'Comment identifier les tâches chronophages',
-    'Guide étape par étape pour démarrer',
-    'Calculateur de ROI intégré',
-    'Templates prêts à utiliser'
-  ];
-
   return (
-    <div className="py-16 sm:py-20 bg-gradient-to-br from-primary/5 via-background to-accent/5">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center mb-16">
-          <div className="flex justify-center mb-6">
-            <div className="rounded-full bg-primary/10 p-4">
-              <BookOpen className="h-12 w-12 text-primary" />
-            </div>
-          </div>
-          
-          <h2 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl mb-6" data-testid="text-leadmagnet-title">
-            Guide Gratuit : Automatisation IA
-          </h2>
-          
-          <p className="text-xl leading-8 text-muted-foreground mb-8" data-testid="text-leadmagnet-subtitle">
-            Découvrez comment automatiser vos processus métier et gagner jusqu'à 20h par semaine
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Benefits */}
+    <Section id="guide">
+      <div className="overflow-hidden rounded-4xl border border-brand-500/30 bg-gradient-to-br from-brand-800/50 via-night-card to-night px-7 py-12 text-white shadow-[0_24px_60px_-24px_rgba(124,58,237,0.5)] sm:px-12 sm:py-14">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
           <div>
-            <h3 className="text-2xl font-semibold text-foreground mb-6">
-              Ce que vous allez apprendre :
-            </h3>
-            
-            <ul className="space-y-4 mb-8">
-              {benefits.map((benefit, index) => (
-                <li key={benefit} className="flex items-start gap-3" data-testid={`text-benefit-${index}`}>
-                  <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                  <span className="text-muted-foreground">{benefit}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="bg-primary/5 rounded-lg p-6 border-l-4 border-primary">
-              <p className="text-sm text-muted-foreground">
-                <strong className="text-primary">Plus de 500 entreprises</strong> utilisent déjà nos méthodes pour automatiser leurs processus et réduire leurs coûts opérationnels.
-              </p>
-            </div>
-            
-            <div className="text-center mt-8">
-              <Button onClick={() => setLocation('/contact')} variant="outline" size="lg" data-testid="button-request-quote">
-                Demander un devis personnalisé
-              </Button>
-            </div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/70">
+              <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-brand-400 to-brand-500" />
+              {LEAD_MAGNET.badge}
+            </span>
+            <h2 className="mt-5 text-3xl font-extrabold leading-tight sm:text-4xl">
+              {LEAD_MAGNET.title}
+            </h2>
+            <p className="mt-4 max-w-md text-base leading-relaxed text-white/70">
+              {LEAD_MAGNET.subtitle}
+            </p>
           </div>
 
-          {/* Right side - Form */}
-          <div>
-            <LeadForm
-              onSuccess={handleLeadSuccess}
-              title="Télécharger le guide gratuit"
-              description="Remplissez le formulaire pour accéder immédiatement au guide complet sur l'automatisation IA"
+          <form onSubmit={submit} className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={LEAD_MAGNET.placeholder}
+              className="w-full rounded-full border border-white/15 bg-white/10 px-5 py-3.5 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none sm:max-w-xs"
             />
-          </div>
+            <Button type="submit" variant="secondary" size="lg" className="shrink-0">
+              {sent ? "Merci !" : LEAD_MAGNET.cta} <Chevrons />
+            </Button>
+          </form>
         </div>
       </div>
-    </div>
+    </Section>
   );
 }

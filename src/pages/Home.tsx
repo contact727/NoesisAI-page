@@ -1,25 +1,37 @@
-import Header from '@/components/Header';
-import Hero from '@/components/Hero';
-import ValueBlocks from '@/components/ValueBlocks';
-import CaseStudies from '@/components/CaseStudies';
-import LeadMagnet from '@/components/LeadMagnet';
-import FAQ from '@/components/FAQ';
-import ContactCTA from '@/components/ContactCTA';
-import Footer from '@/components/Footer';
+import { Hero } from "../components/Hero";
+import { ClientLogos } from "../components/ClientLogos";
+import { Problem } from "../components/Problem";
+import { Solutions } from "../components/Solutions";
+import { Expertise } from "../components/Expertise";
+import { VoiceAgents } from "../components/VoiceAgents";
+import { MissedCallsRoi } from "../components/MissedCallsRoi";
+import { Realisations } from "../components/Realisations";
+import { Process } from "../components/Process";
+import { Team } from "../components/Team";
+import { LeadMagnet } from "../components/LeadMagnet";
+import { Testimonials } from "../components/Testimonials";
+import { ContactForm } from "../components/ContactForm";
+import { Faq } from "../components/Faq";
+import { FinalCta } from "../components/FinalCta";
 
-export default function Home() {
+export function Home() {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main>
-        <Hero />
-        <ValueBlocks />
-        <CaseStudies />
-        <FAQ />
-        <LeadMagnet />
-        <ContactCTA />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Hero />
+      <ClientLogos />
+      <Problem />
+      <Expertise />
+      <Solutions />
+      <VoiceAgents />
+      <MissedCallsRoi />
+      <Realisations />
+      <Process />
+      <Team />
+      <LeadMagnet />
+      <Testimonials />
+      <ContactForm />
+      <Faq />
+      <FinalCta />
+    </>
   );
 }
