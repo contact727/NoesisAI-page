@@ -22,7 +22,15 @@ import { CONTACT_EMAIL } from "./content";
  *   • Web3Forms   → https://api.web3forms.com/submit  (ajouter access_key)
  *   • n8n / Make  → URL du webhook, puis nœud « Send Email »
  */
-export const DIAGNOSTIC_ENDPOINT = "";
+export const DIAGNOSTIC_ENDPOINT = "https://api.web3forms.com/submit";
+
+/**
+ * Clé publique Web3Forms. Elle transite forcément par le navigateur :
+ * c'est le fonctionnement prévu du service, elle n'ouvre aucun accès
+ * en lecture aux soumissions passées. Pour la révoquer, il suffit d'en
+ * régénérer une depuis web3forms.com.
+ */
+export const DIAGNOSTIC_ACCESS_KEY = "890e6b15-0a45-4fed-89d4-54bbf78234b9";
 
 /** Nombre de semaines réellement travaillées dans l'année (congés déduits). */
 export const SEMAINES_TRAVAILLEES = 45;
@@ -663,60 +671,95 @@ export async function envoyerDiagnostic(
     return "mailto";
   }
 
+  /* Données structurées complètes, conservées à part : les services
+   * d'email rendent mal les objets imbriqués, on les joint donc en
+   * JSON dans un seul champ plutôt que de les éparpiller. */
+  const donneesCompletes = {
+    entreprise: {
+      societe: c.societe,
+      secteur: s.secteur,
+      effectif: s.effectif,
+      ca: s.ca,
+      coutHoraire: s.coutHoraire,
+    },
+    equipes: POLES.filter((p) => s.poles[p.id]?.actif).map((p) => ({
+      pole: p.label,
+      collaborateurs: s.poles[p.id].collabs,
+      heuresParCollaborateur: s.poles[p.id].heures,
+      heuresTotales: s.poles[p.id].collabs * s.poles[p.id].heures,
+    })),
+    taches: TACHES.filter((t) => (s.taches[t.id] ?? 0) > 0).map((t) => ({
+      tache: t.label,
+      heuresSemaine: s.taches[t.id],
+      tauxAutomatisable: t.auto,
+    })),
+    contexte: {
+      maturite: MATURITES.find((m) => m.id === s.maturite)?.label ?? "",
+      donnees: DONNEES.find((d) => d.id === s.donnees)?.label ?? "",
+      outils: s.outils,
+      objectif: OBJECTIFS.find((o) => o.id === s.objectif)?.label ?? "",
+      urgence: URGENCES.find((u) => u.id === s.urgence)?.label ?? "",
+      budget: s.budget,
+    },
+    resultats: {
+      score: r.score,
+      niveau: r.niveau,
+      heuresRepetitivesSemaine: r.heuresRepetitivesSemaine,
+      tauxAutomatisation: r.tauxAutomatisation,
+      heuresGagneesSemaine: r.heuresGagneesSemaine,
+      heuresGagneesAn: r.heuresGagneesAn,
+      economieAn: r.economieAn,
+      etpLiberes: r.etpLiberes,
+      chantiers: r.chantiers.map((ch) => ({
+        chantier: ch.tache.chantier,
+        heuresAn: ch.heuresAn,
+        economieAn: ch.economieAn,
+      })),
+    },
+  };
+
+  const corps: Record<string, unknown> = {
+    subject: `Diagnostic IA — ${c.societe || `${c.prenom} ${c.nom}`}`,
+    from_name: "Diagnostic IA · noesisai.fr",
+    // Repris comme adresse de réponse : un « Répondre » écrit au prospect.
+    email: c.email,
+    message: resume,
+
+    // Champs à plat, lisibles d'un coup d'œil dans le corps de l'email.
+    prenom: c.prenom,
+    nom: c.nom,
+    telephone: c.telephone,
+    fonction: c.poste,
+    societe: c.societe,
+    secteur: s.secteur,
+    effectif: s.effectif,
+    score: `${r.score}/100 — ${r.niveau}`,
+    heures_gagnees_par_an: Math.round(r.heuresGagneesAn),
+    economie_par_an: Math.round(r.economieAn),
+    chantier_prioritaire: r.chantiers[0]?.tache.chantier ?? "—",
+    objectif: OBJECTIFS.find((o) => o.id === s.objectif)?.label ?? "",
+    urgence: URGENCES.find((u) => u.id === s.urgence)?.label ?? "",
+    budget: s.budget || "non renseigné",
+
+    donnees_completes: JSON.stringify(donneesCompletes, null, 2),
+  };
+
+  if (DIAGNOSTIC_ACCESS_KEY) corps.access_key = DIAGNOSTIC_ACCESS_KEY;
+
   const reponse = await fetch(DIAGNOSTIC_ENDPOINT, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      source: "diagnostic-ia",
-      recuLe: new Date().toISOString(),
-      // Champs à plat : lisibles tels quels dans un email Formspree / n8n.
-      sujet: `Diagnostic IA — ${c.societe || `${c.prenom} ${c.nom}`}`,
-      message: resume,
-      contact: c,
-      entreprise: {
-        societe: c.societe,
-        secteur: s.secteur,
-        effectif: s.effectif,
-        ca: s.ca,
-        coutHoraire: s.coutHoraire,
-      },
-      equipes: POLES.filter((p) => s.poles[p.id]?.actif).map((p) => ({
-        pole: p.label,
-        collaborateurs: s.poles[p.id].collabs,
-        heuresParCollaborateur: s.poles[p.id].heures,
-        heuresTotales: s.poles[p.id].collabs * s.poles[p.id].heures,
-      })),
-      taches: TACHES.filter((t) => (s.taches[t.id] ?? 0) > 0).map((t) => ({
-        tache: t.label,
-        heuresSemaine: s.taches[t.id],
-        tauxAutomatisable: t.auto,
-      })),
-      contexte: {
-        maturite: MATURITES.find((m) => m.id === s.maturite)?.label ?? "",
-        donnees: DONNEES.find((d) => d.id === s.donnees)?.label ?? "",
-        outils: s.outils,
-        objectif: OBJECTIFS.find((o) => o.id === s.objectif)?.label ?? "",
-        urgence: URGENCES.find((u) => u.id === s.urgence)?.label ?? "",
-        budget: s.budget,
-      },
-      resultats: {
-        score: r.score,
-        niveau: r.niveau,
-        heuresRepetitivesSemaine: r.heuresRepetitivesSemaine,
-        tauxAutomatisation: r.tauxAutomatisation,
-        heuresGagneesSemaine: r.heuresGagneesSemaine,
-        heuresGagneesAn: r.heuresGagneesAn,
-        economieAn: r.economieAn,
-        etpLiberes: r.etpLiberes,
-        chantiers: r.chantiers.map((ch) => ({
-          chantier: ch.tache.chantier,
-          heuresAn: ch.heuresAn,
-          economieAn: ch.economieAn,
-        })),
-      },
-    }),
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(corps),
   });
 
   if (!reponse.ok) throw new Error(`Envoi refusé (${reponse.status})`);
+
+  /* Web3Forms répond 200 même lorsqu'il rejette la soumission :
+   * sans cette vérification, un échec passerait pour un succès. */
+  const resultat = await reponse.json().catch(() => null);
+  if (resultat && resultat.success === false) {
+    throw new Error(resultat.message ?? "Envoi refusé");
+  }
+
   return "webhook";
 }
