@@ -7,6 +7,9 @@
 //  navigateur, contrairement à une clé de service de formulaire.
 // =============================================================
 
+/** Évite d'ajouter @types/node au projet pour ces seules trois lectures. */
+declare const process: { env: Record<string, string | undefined> };
+
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 const ICLOSED_URL = "https://app.iclosed.io/e/NoesisAI/30min";
 

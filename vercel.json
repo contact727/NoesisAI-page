@@ -10,11 +10,5 @@
       ]
     }
   ],
-  "rewrites": [
-    {
-      "//": "Tout est renvoyé vers l'app React sauf /api, qui doit atteindre les fonctions serverless.",
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
-    }
-  ]
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
 }
