@@ -22,15 +22,17 @@ import { CONTACT_EMAIL } from "./content";
  *   • Web3Forms   → https://api.web3forms.com/submit  (ajouter access_key)
  *   • n8n / Make  → URL du webhook, puis nœud « Send Email »
  */
-export const DIAGNOSTIC_ENDPOINT = "https://api.web3forms.com/submit";
-
 /**
- * Clé publique Web3Forms. Elle transite forcément par le navigateur :
- * c'est le fonctionnement prévu du service, elle n'ouvre aucun accès
- * en lecture aux soumissions passées. Pour la révoquer, il suffit d'en
- * régénérer une depuis web3forms.com.
+ * Fonction serverless du projet (api/diagnostic.ts). Elle envoie la
+ * fiche de lead à la boîte de contact et le diagnostic personnalisé
+ * au prospect. Aucune clé ne transite par le navigateur : elles sont
+ * lues côté serveur depuis les variables d'environnement Vercel.
+ *
+ * Cette route n'existe pas sous `vite dev` : en local, la soumission
+ * bascule donc sur le repli mailto. Le test grandeur nature se fait
+ * sur un déploiement Vercel (preview ou production).
  */
-export const DIAGNOSTIC_ACCESS_KEY = "890e6b15-0a45-4fed-89d4-54bbf78234b9";
+export const DIAGNOSTIC_ENDPOINT = "/api/diagnostic";
 
 /** Nombre de semaines réellement travaillées dans l'année (congés déduits). */
 export const SEMAINES_TRAVAILLEES = 45;
@@ -671,12 +673,11 @@ export async function envoyerDiagnostic(
     return "mailto";
   }
 
-  /* Données structurées complètes, conservées à part : les services
-   * d'email rendent mal les objets imbriqués, on les joint donc en
-   * JSON dans un seul champ plutôt que de les éparpiller. */
-  const donneesCompletes = {
+  /* Payload structuré : la fonction serverless s'en sert pour composer
+   * les deux emails (fiche de lead interne, diagnostic au prospect). */
+  const corps = {
+    contact: c,
     entreprise: {
-      societe: c.societe,
       secteur: s.secteur,
       effectif: s.effectif,
       ca: s.ca,
@@ -709,42 +710,19 @@ export async function envoyerDiagnostic(
       heuresGagneesSemaine: r.heuresGagneesSemaine,
       heuresGagneesAn: r.heuresGagneesAn,
       economieAn: r.economieAn,
+      economieMois: r.economieMois,
       etpLiberes: r.etpLiberes,
+      joursOuvresAn: r.joursOuvresAn,
       chantiers: r.chantiers.map((ch) => ({
         chantier: ch.tache.chantier,
+        solution: ch.tache.solution,
+        stack: ch.tache.stack,
         heuresAn: ch.heuresAn,
         economieAn: ch.economieAn,
       })),
     },
+    resume,
   };
-
-  const corps: Record<string, unknown> = {
-    subject: `Diagnostic IA — ${c.societe || `${c.prenom} ${c.nom}`}`,
-    from_name: "Diagnostic IA · noesisai.fr",
-    // Repris comme adresse de réponse : un « Répondre » écrit au prospect.
-    email: c.email,
-    message: resume,
-
-    // Champs à plat, lisibles d'un coup d'œil dans le corps de l'email.
-    prenom: c.prenom,
-    nom: c.nom,
-    telephone: c.telephone,
-    fonction: c.poste,
-    societe: c.societe,
-    secteur: s.secteur,
-    effectif: s.effectif,
-    score: `${r.score}/100 — ${r.niveau}`,
-    heures_gagnees_par_an: Math.round(r.heuresGagneesAn),
-    economie_par_an: Math.round(r.economieAn),
-    chantier_prioritaire: r.chantiers[0]?.tache.chantier ?? "—",
-    objectif: OBJECTIFS.find((o) => o.id === s.objectif)?.label ?? "",
-    urgence: URGENCES.find((u) => u.id === s.urgence)?.label ?? "",
-    budget: s.budget || "non renseigné",
-
-    donnees_completes: JSON.stringify(donneesCompletes, null, 2),
-  };
-
-  if (DIAGNOSTIC_ACCESS_KEY) corps.access_key = DIAGNOSTIC_ACCESS_KEY;
 
   const reponse = await fetch(DIAGNOSTIC_ENDPOINT, {
     method: "POST",
@@ -752,13 +730,9 @@ export async function envoyerDiagnostic(
     body: JSON.stringify(corps),
   });
 
-  if (!reponse.ok) throw new Error(`Envoi refusé (${reponse.status})`);
-
-  /* Web3Forms répond 200 même lorsqu'il rejette la soumission :
-   * sans cette vérification, un échec passerait pour un succès. */
-  const resultat = await reponse.json().catch(() => null);
-  if (resultat && resultat.success === false) {
-    throw new Error(resultat.message ?? "Envoi refusé");
+  if (!reponse.ok) {
+    const detail = await reponse.json().catch(() => null);
+    throw new Error(detail?.error ?? `Envoi refusé (${reponse.status})`);
   }
 
   return "webhook";
