@@ -54,3 +54,87 @@
     background-image: linear-gradient(100deg, #3b82f6 0%, #8b5cf6 52%, #c026d3 100%);
   }
 }
+
+/* =============================================================
+   Impression / export PDF du diagnostic
+   Le site est sombre : sans ces règles, le PDF sortirait illisible
+   ou consommerait une cartouche entière. On repasse la page en
+   document clair, et on ne garde que le contenu du diagnostic.
+   ============================================================= */
+@media print {
+  @page {
+    margin: 14mm 12mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #111827 !important;
+  }
+
+  /* Éléments purement interactifs : sans objet sur papier. */
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Visible uniquement à l'impression (en-tête du document). */
+  .print-only {
+    display: block !important;
+  }
+
+  .diagnostic-print,
+  .diagnostic-print * {
+    color: #111827 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Cartes : fond blanc, bordure fine plutôt que surface sombre. */
+  .diagnostic-print [class*="bg-night"],
+  .diagnostic-print [class*="bg-white/"],
+  .diagnostic-print [class*="bg-brand"],
+  .diagnostic-print [class*="bg-gradient"] {
+    background: #ffffff !important;
+    background-image: none !important;
+    border: 1px solid #e5e7eb !important;
+  }
+
+  .diagnostic-print [class*="border-"] {
+    border-color: #e5e7eb !important;
+  }
+
+  /* Le texte en dégradé s'appuie sur une couleur transparente :
+     il disparaîtrait purement et simplement à l'impression. */
+  .diagnostic-print .text-gradient {
+    background-image: none !important;
+    color: #6d28d9 !important;
+    -webkit-text-fill-color: #6d28d9 !important;
+  }
+
+  /* Pastilles numérotées : fond dégradé + texte blanc, donc
+     invisibles dès que le navigateur retire les fonds. */
+  .diagnostic-print .bg-brand-gradient {
+    background-image: none !important;
+    border: 1.5px solid #6d28d9 !important;
+    color: #6d28d9 !important;
+  }
+
+  /* L'anneau de score est un SVG : on force son rendu couleur. */
+  .diagnostic-print svg {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .diagnostic-print .text-slate-400,
+  .diagnostic-print .text-slate-500,
+  .diagnostic-print [class*="text-white/"] {
+    color: #4b5563 !important;
+  }
+
+  /* Un chantier ne doit pas être coupé en deux pages. */
+  .evite-coupure {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

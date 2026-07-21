@@ -119,10 +119,22 @@ export function Resultats({
 }) {
   return (
     <motion.div
+      className="diagnostic-print"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
+      {/* En-tête réservé au PDF : à l'écran, le logo est déjà dans la
+          barre du haut, qui ne s'imprime pas. */}
+      <div className="print-only mb-8 hidden border-b border-slate-200 pb-4">
+        <div className="flex items-baseline justify-between">
+          <span className="font-display text-lg font-bold">NOESIS.AI</span>
+          <span className="text-xs">
+            Diagnostic IA · {new Date().toLocaleDateString("fr-FR")}
+          </span>
+        </div>
+      </div>
+
       {/* En-tête */}
       <div className="rounded-3xl border border-white/10 bg-night-card p-7 sm:p-9">
         <div className="flex flex-col items-center gap-7 sm:flex-row sm:items-center sm:gap-9">
@@ -191,7 +203,7 @@ export function Resultats({
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.15 + i * 0.1 }}
-              className="rounded-3xl border border-white/10 bg-night-card p-6 sm:p-7"
+              className="evite-coupure rounded-3xl border border-white/10 bg-night-card p-6 sm:p-7"
             >
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
@@ -248,13 +260,17 @@ export function Resultats({
             href={ICLOSED_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-base font-medium text-white backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10"
+            className="mt-8 inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-base font-medium text-white backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10 print:hidden"
           >
             Réserver mon échange de 30 min
             <span aria-hidden className="-mr-0.5 translate-y-px text-[0.95em] opacity-80">
               ››
             </span>
           </a>
+          {/* Sur papier, un bouton ne se clique pas : on écrit l'adresse. */}
+          <p className="print-only mt-6 hidden text-sm font-semibold">
+            Réservez votre créneau : {ICLOSED_URL}
+          </p>
           <p className="mt-4 text-xs text-white/50">
             Sans engagement · Créneau de 30 minutes · En visio
           </p>

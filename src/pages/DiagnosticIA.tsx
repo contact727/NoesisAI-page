@@ -161,6 +161,32 @@ export function DiagnosticIA() {
     setEtape((e) => e + 1);
   };
 
+  /**
+   * Ouvre la boîte d'impression du navigateur, dont l'option
+   * « Enregistrer au format PDF » produit le fichier. Le nom proposé
+   * reprend le titre du document : on le renomme le temps de
+   * l'impression pour éviter un « Diagnostic IA — NOESIS.AI.pdf »
+   * identique pour tout le monde.
+   */
+  const telechargerPdf = () => {
+    const titrePrecedent = document.title;
+    const identifiant = (contact.societe || contact.prenom || "diagnostic")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    document.title = `Diagnostic-IA-${identifiant}`;
+
+    const restaurer = () => {
+      document.title = titrePrecedent;
+      window.removeEventListener("afterprint", restaurer);
+    };
+    window.addEventListener("afterprint", restaurer);
+
+    window.print();
+  };
+
   const soumettre = async () => {
     if (!valide || envoi) return;
     setEnvoi(true);
@@ -181,7 +207,7 @@ export function DiagnosticIA() {
     <div className="min-h-screen">
       {/* En-tête minimal : le logo ne renvoie nulle part, la
           ressource reste isolée du reste du site. */}
-      <header className="border-b border-white/5">
+      <header className="border-b border-white/5 print:hidden">
         <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-5 py-5 sm:px-8">
           <div className="flex items-center gap-2.5">
             <img src="/logos/noesis-mark.png" alt="" className="h-8 w-8" />
@@ -669,10 +695,10 @@ export function DiagnosticIA() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 print:hidden">
               <button
                 type="button"
-                onClick={() => window.print()}
-                className="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:border-white/30 hover:bg-white/10"
+                onClick={telechargerPdf}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:border-white/30 hover:bg-white/10"
               >
-                Enregistrer en PDF
+                <span aria-hidden>↓</span> Télécharger mon diagnostic en PDF
               </button>
               <button
                 type="button"

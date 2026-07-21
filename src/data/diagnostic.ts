@@ -23,16 +23,35 @@ import { CONTACT_EMAIL } from "./content";
  *   • n8n / Make  → URL du webhook, puis nœud « Send Email »
  */
 /**
- * Fonction serverless du projet (api/diagnostic.ts). Elle envoie la
- * fiche de lead à la boîte de contact et le diagnostic personnalisé
- * au prospect. Aucune clé ne transite par le navigateur : elles sont
- * lues côté serveur depuis les variables d'environnement Vercel.
+ * Destination des diagnostics.
  *
- * Cette route n'existe pas sous `vite dev` : en local, la soumission
- * bascule donc sur le repli mailto. Le test grandeur nature se fait
- * sur un déploiement Vercel (preview ou production).
+ *  • "web3forms"  — actif. Notifie la boîte de contact. Le prospect ne
+ *    reçoit rien : il garde ses résultats via le téléchargement PDF.
+ *
+ *  • "serverless" — api/diagnostic.ts, déjà écrit et prêt. Envoie en
+ *    plus le diagnostic personnalisé au prospect via Resend. Ne pas
+ *    activer avant d'avoir vérifié un domaine dans Resend et
+ *    configuré RESEND_API_KEY, DIAGNOSTIC_FROM et DIAGNOSTIC_TO sur
+ *    Vercel : sans ces variables la route renvoie une erreur et plus
+ *    aucun lead n'est collecté.
+ *
+ * Le basculement se fait en changeant cette seule valeur.
  */
-export const DIAGNOSTIC_ENDPOINT = "/api/diagnostic";
+export const MODE_ENVOI: "web3forms" | "serverless" = "web3forms";
+
+const ENDPOINTS = {
+  web3forms: "https://api.web3forms.com/submit",
+  serverless: "/api/diagnostic",
+} as const;
+
+export const DIAGNOSTIC_ENDPOINT = ENDPOINTS[MODE_ENVOI];
+
+/**
+ * Clé publique Web3Forms. Elle transite forcément par le navigateur :
+ * c'est le fonctionnement prévu du service, et elle n'ouvre aucun
+ * accès en lecture aux soumissions passées.
+ */
+export const DIAGNOSTIC_ACCESS_KEY = "890e6b15-0a45-4fed-89d4-54bbf78234b9";
 
 /** Nombre de semaines réellement travaillées dans l'année (congés déduits). */
 export const SEMAINES_TRAVAILLEES = 45;
@@ -724,15 +743,65 @@ export async function envoyerDiagnostic(
     resume,
   };
 
+  /* Web3Forms rend mal les objets imbriqués : on lui envoie donc les
+   * champs de qualification à plat, plus le détail en JSON dans un
+   * seul champ. La fonction serverless, elle, consomme le payload
+   * structuré tel quel. */
+  const charge =
+    MODE_ENVOI === "serverless"
+      ? corps
+      : {
+          access_key: DIAGNOSTIC_ACCESS_KEY,
+          subject: `Diagnostic IA — ${c.societe || `${c.prenom} ${c.nom}`}`,
+          from_name: "Diagnostic IA · noesisai.fr",
+          // Repris comme adresse de réponse : « Répondre » écrit au prospect.
+          email: c.email,
+          message: resume,
+
+          prenom: c.prenom,
+          nom: c.nom,
+          telephone: c.telephone,
+          fonction: c.poste,
+          societe: c.societe,
+          secteur: s.secteur,
+          effectif: s.effectif,
+          score: `${r.score}/100 — ${r.niveau}`,
+          heures_gagnees_par_an: Math.round(r.heuresGagneesAn),
+          economie_par_an: Math.round(r.economieAn),
+          chantier_prioritaire: r.chantiers[0]?.tache.chantier ?? "—",
+          objectif: corps.contexte.objectif,
+          urgence: corps.contexte.urgence,
+          budget: s.budget || "non renseigné",
+
+          donnees_completes: JSON.stringify(
+            {
+              entreprise: corps.entreprise,
+              equipes: corps.equipes,
+              taches: corps.taches,
+              contexte: corps.contexte,
+              resultats: corps.resultats,
+            },
+            null,
+            2
+          ),
+        };
+
   const reponse = await fetch(DIAGNOSTIC_ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(corps),
+    body: JSON.stringify(charge),
   });
 
   if (!reponse.ok) {
     const detail = await reponse.json().catch(() => null);
     throw new Error(detail?.error ?? `Envoi refusé (${reponse.status})`);
+  }
+
+  /* Web3Forms répond 200 même lorsqu'il rejette la soumission :
+   * sans ce contrôle, un échec passerait pour un succès. */
+  const resultat = await reponse.json().catch(() => null);
+  if (resultat && resultat.success === false) {
+    throw new Error(resultat.message ?? "Envoi refusé");
   }
 
   return "webhook";
