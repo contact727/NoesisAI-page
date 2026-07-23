@@ -8,6 +8,7 @@ import { Confidentialite } from "./pages/Confidentialite";
 import { Cgu } from "./pages/Cgu";
 import { NotFound } from "./pages/NotFound";
 import { DiagnosticIA } from "./pages/DiagnosticIA";
+import { GuideAutomatisation } from "./pages/GuideAutomatisation";
 
 /** Remonte en haut à chaque changement de route (sauf ancres #). */
 function ScrollToTop() {
@@ -38,6 +39,7 @@ export default function App() {
             aucun lien de navigation vers ou depuis le reste du site.
             Accessible uniquement via son URL directe. */}
         <Route path="/diagnostic-ia" element={<DiagnosticIA />} />
+        <Route path="/guide-automatisation" element={<GuideAutomatisation />} />
 
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />
