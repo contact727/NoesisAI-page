@@ -7,7 +7,6 @@ import { VoiceAgents } from "../components/VoiceAgents";
 import { MissedCallsRoi } from "../components/MissedCallsRoi";
 import { Realisations } from "../components/Realisations";
 import { Process } from "../components/Process";
-import { Team } from "../components/Team";
 import { LeadMagnet } from "../components/LeadMagnet";
 import { Testimonials } from "../components/Testimonials";
 import { ContactForm } from "../components/ContactForm";
@@ -26,7 +25,6 @@ export function Home() {
       <MissedCallsRoi />
       <Realisations />
       <Process />
-      <Team />
       <LeadMagnet />
       <Testimonials />
       <ContactForm />

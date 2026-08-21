@@ -18,7 +18,6 @@ export const NAV_LINKS = [
   { label: "Expertises", href: "#expertises" },
   { label: "Agents vocaux", href: "#agents-vocaux" },
   { label: "Réalisations", href: "#realisations" },
-  { label: "Équipe", href: "#equipe" },
   { label: "FAQ", href: "#faq" },
 ];
 
@@ -259,27 +258,6 @@ export const TESTIMONIALS = {
         "On exploite enfin notre vivier de candidats. La préqualification vocale et le matching IA nous remettent des shortlists déjà qualifiées.",
       author: "Direction",
       company: "ISCI International",
-    },
-  ],
-};
-
-export const TEAM = {
-  badge: "L'équipe",
-  title: "Notre équipe",
-  subtitle:
-    "Les experts derrière NOESIS AI, passionnés par l'innovation et l'automatisation intelligente.",
-  members: [
-    {
-      name: "Ugo Sartini",
-      role: "Co-founder",
-      photo: "/team/ugo.png",
-      linkedin: "https://www.linkedin.com/in/ugo-sartini-automatisation-ia/",
-    },
-    {
-      name: "Karim Kraiouh",
-      role: "Co-founder",
-      photo: "/team/karim.png",
-      linkedin: "https://www.linkedin.com/in/karim-k-702890198/",
     },
   ],
 };
